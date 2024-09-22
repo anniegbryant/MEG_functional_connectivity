@@ -58,10 +58,6 @@ classification_res_path_individual = f"{classification_res_path}/within_particip
 os.path.mkdirs(classification_res_path_averaged, exist_ok=True)
 os.path.mkdirs(classification_res_path_individual, exist_ok=True)
 
-# Make classification result directories
-os.makedirs(classification_res_path_averaged, exist_ok=True)
-os.makedirs(classification_res_path_individual, exist_ok=True)
-
 #################################################################################################
 # Classification across participants with averaged epochs
 #################################################################################################

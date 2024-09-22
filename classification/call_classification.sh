@@ -13,6 +13,11 @@ bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 
 github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
 # github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG.txt
+# input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG.txt
+
+github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
+# github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
 
 ###################### Averaged epoch classification ##################
 n_jobs=10
