@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
 # Define the batch job array command
-input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_mini.txt
 # input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
+
+# A priori selected regions file
+regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris_ROIs.json
 
 ##################################################################################################
 # Preprocessing [Artemis, batch array]
 ##################################################################################################
 
 # # Step 1
-# cmd="qsub -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/Cogitate_MEG_preproc_step1_^array_index^.out \
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_step1_^array_index^.out \
 #    -N Cogitate_MEG_preproc_1 \
 #    -J 1-94 \
 #    -l select=1:ncpus=1:mem=40GB:mpiprocs=1 \
@@ -18,7 +21,7 @@ input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject
 # $cmd
 
 # # Step 2
-# cmd="qsub -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/Cogitate_MEG_preproc_step2_^array_index^.out \
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_step2_^array_index^.out \
 #    -N Cogitate_MEG_preproc_2 \
 #    -J 1-94 \
 #    -l select=1:ncpus=1:mem=20GB:mpiprocs=1 \
@@ -30,19 +33,18 @@ input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject
 # recon-all [Artemis, individual jobs]
 ##################################################################################################
 
-# Define the recon-all command loop
-cat $input_model_file | while read line 
-do
-   subject=$line
-   cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/recon_all_${subject}.out \
-   -N ${subject}_recon_all \
-   -v subject=$subject \
-   2_recon_all.pbs"
+# # Define the recon-all command loop
+# cat $input_model_file | while read line 
+# do
+#    subject=$line
+#    cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/recon_all_${subject}.out \
+#    -N ${subject}_recon_all \
+#    -v subject=$subject \
+#    2_recon_all.pbs"
 
-   # Run the command
-   $cmd
-done
-
+#    # Run the command
+#    $cmd
+# done
 
 ##################################################################################################
 # Scalp reconstruction [Physics cluster]
@@ -61,7 +63,7 @@ done
 ##################################################################################################
 
 # # Define the command
-# cmd="qsub -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/Cogitate_MEG_BEM_^array_index^.out \
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_BEM_^array_index^.out \
 # -N BEM \
 # -J 1-94 \
 # -v input_model_file=$input_model_file \
@@ -77,29 +79,29 @@ done
 # # Define the command
 num_cores=10
 n_jobs=4
-# cmd="qsub -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/MEG_extract_time_series_^array_index^.out \
-# -N MEG_extract_time_series \
-# -J 1-52 \
-# -v input_model_file=$input_model_file \
-# -l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
-# 7_extract_time_series.pbs"
+cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_^array_index^.out \
+-N MEG_extract_time_series \
+-J 1-10 \
+-v input_model_file=$input_model_file \
+-l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
+5_extract_time_series.pbs"
 
-# echo $cmd
+echo $cmd
 
-# # Run the command
-# $cmd
+# Run the command
+$cmd
 
 ##################################################################################################
 # Combine time series for participant
 ##################################################################################################
 
 # Define the command
-# cmd="qsub -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/MEG_combine_time_series_^array_index^.out \
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_^array_index^.out \
 # -N MEG_combine_time_series \
 # -J 1-52 \
 # -v input_model_file=$input_model_file \
 # -l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
-# 8_combine_time_series.pbs"
+# 6_combine_time_series.pbs"
 
 # echo $cmd
 

@@ -20,7 +20,7 @@ parser.add_argument('--sub',
                     help='site_id + subject_id (e.g. "CB040")')
 parser.add_argument('--bids_root',
                     type=str,
-                    default='/project/hctsa/annie/data/Cogitate_Batch1/MEG_Data/',
+                    default='/project/hctsa/annie/data/Cogitate_MEG/',
                     help='Path to the BIDS root directory')
 parser.add_argument('--regions',
                     type=str,
@@ -76,7 +76,7 @@ def compute_ROI_labels(labels_atlas, regions, rois_deriv_root):
             # If there are multiple ROIs listed, we need to sum the vertices from each ROI into one meta-ROI
             else:
                 region_dict = {}
-                for roi_name in regions0[region_name]:
+                for roi_name in regions[region_name]:
                     print(roi_name)
                     # Find the label object that matches the ROI name
                     region_dict[roi_name] = np.sum([l for l in labels_atlas if f"_{roi_name}_" in l.name])
@@ -315,7 +315,7 @@ def extract_all_epoch_TS(subject_id, visit_id, region_option, factor, conditions
     # Use subject-transferred Glasser atlas to compute dictionary of labels
     labels_atlas = mne.read_labels_from_annot(
         "sub-"+subject_id, 
-        parc=f'Glasser_in_sub-${subject_id}',
+        parc=f'Schaefer100_7Networks_in_sub-${subject_id}',
         subjects_dir=fs_deriv_root)
     labels_dict = compute_ROI_labels(labels_atlas, region_option, rois_deriv_root)
 

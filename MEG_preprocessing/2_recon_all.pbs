@@ -5,7 +5,6 @@
 #PBS -l select=1:ncpus=1:mem=40GB:mpiprocs=1
 #PBS -V
 
-
 echo "Now running preprocessing for $subject"
 
 # Load python
@@ -44,11 +43,11 @@ srcsubject=fsaverage
 # Left hemisphere
 mri_surf2surf --srcsubject $srcsubject \
 --sval-annot ${Schaefer_annot_dir}/${srcsubject}/atl-Schaefer2018_space-fsaverage_hemi-L_desc-100Parcels7Networks_deterministic.annot \
---trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/lh.Schaefer100_7Networks_in_${subject}.annot \
+--trgsubject sub-$subject --trgsurfval $SUBJECTS_DIR/sub-${subject}/label/lh.Schaefer100_7Networks_in_sub-${subject}.annot \
 --hemi lh
 
 # Right hemisphere
 mri_surf2surf --srcsubject $srcsubject \
 --sval-annot ${Schaefer_annot_dir}/${srcsubject}/atl-Schaefer2018_space-fsaverage_hemi-R_desc-100Parcels7Networks_deterministic.annot \
---trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/rh.Schaefer100_7Networks_in_${subject}.annot \
+--trgsubject sub-$subject --trgsurfval $SUBJECTS_DIR/sub-${subject}/label/rh.Schaefer100_7Networks_in_sub-${subject}.annot \
 --hemi rh
