@@ -13,8 +13,8 @@ module load python/3.9.15
 
 # Call preprocessing script
 MEG_repo_root=/project/hctsa/annie/github/cogitate-msp1/coglib
-bids_root=/project/hctsa/annie/data/Cogitate_Batch${batch_number}/MEG_Data/
-export Glasser_annot_dir=/project/hctsa/annie/data/data/neuroimaging_atlases/surfaces/Glasser_2016
+bids_root=/project/hctsa/annie/data/Cogitate_MEG/
+export Schaefer_annot_dir=/project/hctsa/annie/data/neuroimaging_atlases/surfaces/Schaefer
 visit="1"
 record="run"
 
@@ -29,12 +29,12 @@ export out_fw=${bids_root}/derivatives/forward
 export PATH="$FREESURFER_HOME/bin:$PATH"
 export PATH="$FREESURFER_HOME/fsfast/bin:$PATH"
 
-##################################### freesurfer ######################################
+# ##################################### freesurfer ######################################
 
-reconcmd="recon-all -all -subjid sub-${subject} -i ${bids_root}/sub-${subject}/ses-1/anat/sub-${subject}_ses-1_T1w.nii.gz -sd /project/hctsa/annie/data/Cogitate_Batch${batch_number}/MEG_Data/derivatives/fs"
+# reconcmd="recon-all -all -subjid sub-${subject} -i ${bids_root}/sub-${subject}/ses-1/anat/sub-${subject}_ses-1_T1w.nii.gz -sd /project/hctsa/annie/data/Cogitate_MEG/derivatives/fs"
 
-echo $reconcmd
-$reconcmd
+# echo $reconcmd
+# $reconcmd
 
 ############################# align Glasser to subject ################################
 
@@ -43,12 +43,12 @@ srcsubject=fsaverage
 
 # Left hemisphere
 mri_surf2surf --srcsubject $srcsubject \
---sval-annot ${Glasser_annot_dir}/${srcsubject}/lh.HCP-MMP1.annot \
---trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/lh.Glasser_in_${subject}.annot \
+--sval-annot ${Schaefer_annot_dir}/${srcsubject}/atl-Schaefer2018_space-fsaverage_hemi-L_desc-100Parcels7Networks_deterministic.annot \
+--trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/lh.Schaefer100_7Networks_in_${subject}.annot \
 --hemi lh
 
 # Right hemisphere
 mri_surf2surf --srcsubject $srcsubject \
---sval-annot ${Glasser_annot_dir}/${srcsubject}/rh.HCP-MMP1.annot \
---trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/rh.Glasser_in_${subject}.annot \
+--sval-annot ${Schaefer_annot_dir}/${srcsubject}/atl-Schaefer2018_space-fsaverage_hemi-R_desc-100Parcels7Networks_deterministic.annot \
+--trgsubject $subject --trgsurfval $SUBJECTS_DIR/${subject}/label/rh.Schaefer100_7Networks_in_${subject}.annot \
 --hemi rh
