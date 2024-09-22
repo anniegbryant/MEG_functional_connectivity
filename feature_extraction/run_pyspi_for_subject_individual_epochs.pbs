@@ -7,6 +7,13 @@
 ##### Change to current working directory
 cd $PBS_O_WORKDIR
 
+#module load Anaconda3-5.1.0
+/usr/physics/Modules/3.2.8/bin/modulecmd bash load Anaconda3-5.1.0 --silent
+source /usr/physics/python/anaconda3/etc/profile.d/conda.sh 
+
+# Activate the pyspi environment
+conda activate pyspi
+
 ##### Obtain Parameters from input.txt file using $PBS_ARRAY_INDEX as the line number #####
 
 # Check if user supplied a command-line argument

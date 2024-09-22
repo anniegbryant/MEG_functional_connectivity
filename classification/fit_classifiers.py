@@ -1,6 +1,8 @@
+from sklearnex import patch_sklearn
+patch_sklearn()
+
 import os
 import numpy as np
-import nibabel as nib
 import pandas as pd
 import sys
 from sklearn import svm
@@ -51,6 +53,14 @@ pyspi_res_path_individual = f"{pyspi_res_path}/individual_epochs"
 classification_res_path = f"{bids_root}/derivatives/classification_results"
 classification_res_path_averaged = f"{classification_res_path}/across_participants"
 classification_res_path_individual = f"{classification_res_path}/within_participants"
+
+# Make classification result directories
+os.path.mkdirs(classification_res_path_averaged, exist_ok=True)
+os.path.mkdirs(classification_res_path_individual, exist_ok=True)
+
+# Make classification result directories
+os.makedirs(classification_res_path_averaged, exist_ok=True)
+os.makedirs(classification_res_path_individual, exist_ok=True)
 
 #################################################################################################
 # Classification across participants with averaged epochs

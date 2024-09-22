@@ -4,7 +4,6 @@
 #PBS -N classification_individual_epochs
 #PBS -l walltime=24:00:00
 #PBS -V
-#PBS -o /project/hctsa/annie/github/Cogitate_Connectivity_2024/cluster_output/all_pyspi_classification_res.out
 
 # Check if user supplied a command-line argument
 if [ -z ${line_to_read+x} ]
@@ -25,10 +24,16 @@ module load python/3.9.15
 
 echo "Now running all pyspi classification"
 
+#module load Anaconda3-5.1.0
+/usr/physics/Modules/3.2.8/bin/modulecmd bash load Anaconda3-5.1.0 --silent
+source /usr/physics/python/anaconda3/etc/profile.d/conda.sh 
+
+# Activate the pyspi environment
+conda activate pyspi
+
 # Path locations
-export bids_root=/project/hctsa/annie/data/Cogitate_MEG/
-export classification_code_dir=/project/hctsa/annie/github/Cogitate_Connectivity_2024/classification
-export SPI_directionality_file=/project/hctsa/annie/github/Cogitate_Connectivity_2024/feature_extraction/pyspi_SPI_info.csv
+export classification_code_dir=$github_repo/classification
+export SPI_directionality_file=$github_repo/feature_extraction/pyspi_SPI_info.csv
 
 ################################## Call classifiers ###################################
 

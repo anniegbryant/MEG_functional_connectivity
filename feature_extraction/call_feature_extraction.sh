@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# User-define batch number
-batch_number=$1
-
 # Define the batch job array command
 # input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG.txt
 input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG.txt
@@ -12,11 +9,11 @@ input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_
 ##################################################################################################
 
 # # Averaged epochs
-# cmd="qsub -o /headnode1/abry4213/github/Cogitate_Connectivity_2024/cluster_output/Cogitate_Batch${batch_number}_pyspi_averaged_^array_index^_fast.out \
+# cmd="qsub -o /headnode1/abry4213/github/Cogitate_Connectivity_2024/cluster_output/Cogitate_MEG_pyspi_averaged_^array_index^_fast.out \
 #    -J 1-100 \
 #    -N fast_pyspi_MEG \
 #    -l select=1:ncpus=1:mem=20GB:mpiprocs=1 \
-#    -v input_model_file=$input_model_file,batch_number=$batch_number \
+#    -v input_model_file=$input_model_file \
 #    run_pyspi_for_subject_averaged_epochs.pbs"
 # $cmd
 
@@ -25,10 +22,19 @@ input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_
 ##################################################################################################
 
 # Individual epochs
-cmd="qsub -o /headnode1/abry4213/github/Cogitate_Connectivity_2024/cluster_output/pyspi_for_individual_epochs_^array_index^_fast.out \
+# cmd="qsub -o /headnode1/abry4213/github/MEG_functional_connectivity/cluster_output/pyspi_for_individual_epochs_^array_index^_fast.out \
+#    -N pyspi_individual_epochs \
+#    -J 1-100 \
+#    -l select=1:ncpus=1:mem=20GB:mpiprocs=1 \
+#    -v input_model_file=$input_model_file\
+#    run_pyspi_for_subject_individual_epochs.pbs"
+# $cmd
+
+for line_to_read in 13 24 37; do
+   cmd="qsub -o /headnode1/abry4213/github/MEG_functional_connectivity/cluster_output/pyspi_for_individual_epochs_${line_to_read}_fast.out \
    -N pyspi_individual_epochs \
-   -J 1-100 \
    -l select=1:ncpus=1:mem=20GB:mpiprocs=1 \
-   -v input_model_file=$input_model_file,batch_number=$batch_number \
+   -v line_to_read=$line_to_read,input_model_file=$input_model_file\
    run_pyspi_for_subject_individual_epochs.pbs"
-$cmd
+   $cmd
+done
