@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Define the batch job array command
-input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_mini.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
 # input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
 
 # A priori selected regions file
@@ -11,22 +11,14 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 # Preprocessing [Artemis, batch array]
 ##################################################################################################
 
-# # Step 1
-# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_step1_^array_index^.out \
+# # Step 1+2 together
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_^array_index^.out \
 #    -N Cogitate_MEG_preproc_1 \
-#    -J 1-94 \
+#    -J 1-10 \
 #    -l select=1:ncpus=1:mem=40GB:mpiprocs=1 \
-#    -v input_model_file=$input_model_file,step=1 \
-#    1_preprocess_MEG_subjects.pbs"
-# $cmd
-
-# # Step 2
-# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_step2_^array_index^.out \
-#    -N Cogitate_MEG_preproc_2 \
-#    -J 1-94 \
-#    -l select=1:ncpus=1:mem=20GB:mpiprocs=1 \
 #    -v input_model_file=$input_model_file,step=2 \
 #    1_preprocess_MEG_subjects.pbs"
+# echo $cmd
 # $cmd
 
 ##################################################################################################
@@ -76,13 +68,13 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 # Extract time series across participants
 ##################################################################################################
 
-# # Define the command
+# Define the command
 num_cores=10
 n_jobs=4
 cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_^array_index^.out \
 -N MEG_extract_time_series \
 -J 1-10 \
--v input_model_file=$input_model_file \
+-v input_model_file=$input_model_file,regions_file=$regions_file,n_jobs=$n_jobs \
 -l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
 5_extract_time_series.pbs"
 

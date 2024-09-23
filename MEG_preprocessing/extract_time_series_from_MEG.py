@@ -38,7 +38,7 @@ visit_id = "1" # Using the first visit for this project
 sfreq = 100 # Setting sampling frequency to 100Hz
 
 subject_id = opt.sub
-region_option = opt.region_option
+regions = opt.regions
 bids_root = opt.bids_root
 n_jobs = opt.n_jobs
 
@@ -53,7 +53,7 @@ conditions = [['face', 'object', 'letter', 'false'],
               ['1000ms']]
 
 # Helper function to create a dictionary of ROI labels depending on the type of region subset requested
-def compute_ROI_labels(labels_atlas, regions, rois_deriv_root):
+def compute_ROI_labels(labels_atlas, regions):
     # Create dictionary to store labels and vertices
     labels_dict = {}
     if regions == "all":
@@ -61,25 +61,29 @@ def compute_ROI_labels(labels_atlas, regions, rois_deriv_root):
             label_name = label.name
             labels_dict[label_name] =  np.sum([label])
     else:
-        # Iterate over the keys in the dictionary
-        for region_name in regions.keys():
+        # Read GNW and IIT ROI list
+        f = open(regions)
+        regions_dict = json.load(f)
+
+        # Iterate over regions in the config file
+        for region_name in regions_dict.keys():
             print(f"Now processing {region_name} with regions:")
             # Iterate over individual ROIs listed under region_name
 
             # If there is only one ROI listed, we can directly add the vertices from that ROI
-            if len(regions[region_name]) == 1:
-                roi_name = regions[region_name][0]
+            if len(regions_dict[region_name]) == 1:
+                roi_name = regions_dict[region_name][0]
 
                 # Find the label object that matches the ROI name
-                labels_dict[region_name] = np.sum([l for l in labels_atlas if f"_{roi_name}_" in l.name])
+                labels_dict[region_name] = np.sum([l for l in labels_atlas if roi_name == l.name])
 
             # If there are multiple ROIs listed, we need to sum the vertices from each ROI into one meta-ROI
             else:
                 region_dict = {}
-                for roi_name in regions[region_name]:
+                for roi_name in regions_dict[region_name]:
                     print(roi_name)
                     # Find the label object that matches the ROI name
-                    region_dict[roi_name] = np.sum([l for l in labels_atlas if f"_{roi_name}_" in l.name])
+                    region_dict[roi_name] = np.sum([l for l in labels_atlas if roi_name == l.name])
                 region_label = np.sum([region_dict[roi_name] for roi_name in region_dict.keys()])
                 labels_dict[region_name] = region_label
 
@@ -283,7 +287,7 @@ def cond_comb_helper_process_by_epoch(cond_comb, epochs_final, inverse_operator,
             epoch_df.to_csv(output_CSV_file, index=False)
                 
 # Extract all epoch time series
-def extract_all_epoch_TS(subject_id, visit_id, region_option, factor, conditions):
+def extract_all_epoch_TS(subject_id, visit_id, regions, factor, conditions):
 
     fs_deriv_root = op.join(bids_root, "derivatives", "fs")
     rois_deriv_root = op.join(bids_root, "derivatives", "roilabel")
@@ -315,14 +319,14 @@ def extract_all_epoch_TS(subject_id, visit_id, region_option, factor, conditions
     # Use subject-transferred Glasser atlas to compute dictionary of labels
     labels_atlas = mne.read_labels_from_annot(
         "sub-"+subject_id, 
-        parc=f'Schaefer100_7Networks_in_sub-${subject_id}',
+        parc=f'Schaefer100_7Networks_in_sub-{subject_id}',
         subjects_dir=fs_deriv_root)
-    labels_dict = compute_ROI_labels(labels_atlas, region_option, rois_deriv_root)
+    labels_dict = compute_ROI_labels(labels_atlas, regions)
 
     # Save label names
     bids_path_label_names = bids_path_epo.copy().update(
                     root=time_series_output_path,
-                    suffix="desc-labels_"+region_option,
+                    suffix="desc-labels",
                     extension='.txt',
                     check=False)
 
@@ -344,4 +348,4 @@ def extract_all_epoch_TS(subject_id, visit_id, region_option, factor, conditions
             output.write(str(list(labels_dict.keys())))
 
 if __name__ == '__main__':
-    extract_all_epoch_TS(subject_id, visit_id, region_option, factor, conditions)
+    extract_all_epoch_TS(subject_id, visit_id, regions, factor, conditions)

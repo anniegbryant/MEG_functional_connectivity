@@ -25,7 +25,7 @@ conda activate pyspi
 
 # Path locations
 export MEG_repo_root=/headnode1/abry4213/github/cogitate-msp1/coglib
-export bids_root=/headnode1/abry4213/data/Cogitate_Batch${batch_number}/MEG_Data/
+export bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 export SUBJECTS_DIR=${bids_root}/derivatives/fs
 export FREESURFER_HOME=/headnode1/abry4213/software/freesurfer/7.1.1
 source $FREESURFER_HOME/SetUpFreeSurfer.sh

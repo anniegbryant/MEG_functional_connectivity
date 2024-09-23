@@ -23,11 +23,11 @@ module load python/3.9.15
 
 # Call preprocessing script
 MEG_repo_root=/project/hctsa/annie/github/cogitate-msp1/coglib
-Cogitate_repo_root=/project/hctsa/annie/github/Cogitate_Connectivity_2024/MEG_preprocessing
+Cogitate_repo_root=/project/hctsa/annie/github/MEG_functional_connectivity/MEG_preprocessing
 bids_root=/project/hctsa/annie/data/Cogitate_MEG/
 visit="1"
 record="run"
 
 ################################# Source localization #################################
 
-python3 $Cogitate_repo_root/extract_time_series_from_MEG.py --sub $subject --bids_root $bids_root --n_jobs $n_jobs --regions $region_file
+python3 $Cogitate_repo_root/extract_time_series_from_MEG.py --sub $subject --bids_root $bids_root --regions $regions_file --n_jobs $n_jobs
