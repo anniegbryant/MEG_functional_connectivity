@@ -3,3 +3,7 @@
 #PBS -l walltime=24:00:00
 #PBS -l select=1:ncpus=1:mem=20GB:mpiprocs=1
 #PBS -V
+#PBS -P hctsa
+
+
+mv -v /project/hctsa/annie/data/Cogitate_MEG/derivatives/MEG_time_series/* /project/MEG/data/Cogitate_MEG/derivatives/MEG_time_series/
