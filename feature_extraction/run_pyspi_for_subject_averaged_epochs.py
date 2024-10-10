@@ -18,10 +18,6 @@ parser.add_argument('--bids_root',
                     type=str,
                     default='/project/hctsa/annie/data/Cogitate_MEG/',
                     help='Path to the BIDS root directory')
-parser.add_argument('--region_option',
-                    type=str,
-                    default='all',
-                    help='Set of regions to use ("all" or "hypothesis_driven")')
 parser.add_argument('--duration',
                     type=str,
                     default='1000ms',
@@ -30,7 +26,6 @@ opt=parser.parse_args()
 
 subject_id = opt.sub 
 bids_root = opt.bids_root
-region_option = opt.region_option
 visit_id = opt.visit_id
 duration = opt.duration
 
@@ -39,12 +34,12 @@ time_series_path = op.join(bids_root, "derivatives", "MEG_time_series")
 output_feature_path = op.join(bids_root, "derivatives", "time_series_features/averaged_epochs")
 
 # Define ROI lookup table
-if region_option == "hypothesis_driven":
-    ROI_lookup = {"proc-0": "Category_Selective",
-                  "proc-1": "GNWT",
-                  "proc-2": "IIT"}
+ROI_lookup = {"proc-0": "Category_Selective",
+                "proc-1": "V1_V2",
+                "proc-2": "IPS",
+                "proc-3": "Prefrontal_Cortex"}
     
-if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_results_{duration}.csv"):
+if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_fast_results_{duration}.csv"):
     print(f"SPI results for sub-{subject_id} already exist. Skipping.")
     exit() 
 
@@ -76,12 +71,13 @@ for stimulus_type in sample_TS_data['stimulus_type'].unique():
                     continue
                 sample_TS_data_list.append(this_condition_data)
 
+
 def run_pyspi_for_df(subject_id, df, calc):
         # Make deepcopy of calc 
         calc_copy = deepcopy(calc)
 
         # Pivot so that the columns are meta_ROI and the rows are data
-        df_wide = (df.filter(items=['times', 'Category_Selective', 'GNWT', 'IIT'])
+        df_wide = (df.filter(items=['times', ROI_lookup.values()])
                      .melt(id_vars='times', var_name='meta_ROI', value_name='data')
                      .reset_index()
                      .pivot(index='meta_ROI', columns='times', values='data'))
@@ -131,4 +127,4 @@ for dataframe in sample_TS_data_list:
 
 # Concatenate the results and save to a feather file
 all_pyspi_res = pd.concat(pyspi_res_list).reset_index() 
-all_pyspi_res.to_csv(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_results_{duration}ms.csv", index=False)
+all_pyspi_res.to_csv(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_fast_results_{duration}ms.csv", index=False)

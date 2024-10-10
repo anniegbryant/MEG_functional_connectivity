@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/tcsh
 #PBS -j oe
 #PBS -l walltime=24:00:00
 #PBS -P hctsa
@@ -7,9 +7,8 @@
 ##### Change to current working directory
 cd $PBS_O_WORKDIR
 
-#module load Anaconda3-5.1.0
-/usr/physics/Modules/3.2.8/bin/modulecmd bash load Anaconda3-5.1.0 --silent
-source /usr/physics/python/anaconda3/etc/profile.d/conda.sh 
+# Load anaconda
+source /usr/physics/python/Anaconda3-2022.10/etc/profile.d/conda.csh
 
 # Activate the pyspi environment
 conda activate pyspi
@@ -29,7 +28,7 @@ subject=${model_name_array[0]}
 echo "Now running preprocessing for $subject"
 
 # Call preprocessing script
-repo_root=/headnode1/abry4213/github/MEG_functional_connectivity/feature_extraction
+Cogitate_repo_root=/headnode1/abry4213/github/MEG_functional_connectivity/feature_extraction
 bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 visit="1"
 record="run"
@@ -37,7 +36,7 @@ record="run"
 #################################### Preprocessing ####################################
 
 # Run the requested step
-cmd="python3 $repo_root/run_pyspi_for_subject_individual_epochs.py --sub $subject --visit_id $visit --bids_root $bids_root --region_option hypothesis_driven"
+cmd="python3 $repo_root/run_pyspi_for_subject_individual_epochs.py --sub $subject --visit_id $visit --bids_root $bids_root"
 
 echo $cmd 
 $cmd

@@ -22,10 +22,6 @@ parser.add_argument('--bids_root',
                     type=str,
                     default='/project/hctsa/annie/data/Cogitate_MEG/',
                     help='Path to the BIDS root directory')
-parser.add_argument('--region_option',
-                    type=str,
-                    default='all',
-                    help='Set of regions to use ("all" or "hypothesis_driven")')
 parser.add_argument('--n_jobs',
                     type=int,
                     default=1,
@@ -34,7 +30,6 @@ opt=parser.parse_args()
 
 subject_id = opt.sub 
 bids_root = opt.bids_root
-region_option = opt.region_option
 visit_id = opt.visit_id
 n_jobs = opt.n_jobs
 duration="1000ms"
@@ -44,10 +39,10 @@ time_series_path = op.join(bids_root, "derivatives", "MEG_time_series")
 output_feature_path = op.join(bids_root, "derivatives", "time_series_features/individual_epochs")
 
 # Define ROI lookup table
-if region_option == "hypothesis_driven":
-    ROI_lookup = {"proc-0": "Category_Selective",
-              "proc-1": "GNWT",
-              "proc-2": "IIT"}
+ROI_lookup = {"proc-0": "Category_Selective",
+                "proc-1": "V1_V2",
+                "proc-2": "IPS",
+                "proc-3": "Prefrontal_Cortex"}
     
 if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_results_individual_epochs_{duration}.csv"):
     print(f"SPI results for sub-{subject_id} already exist. Skipping.")
@@ -57,7 +52,7 @@ if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_r
 calc = Calculator(subset='fast')
 
 all_epoch_files = [f for f in os.listdir(f"{time_series_path}/sub-{subject_id}_ses-{visit_id}_epochs") if "GNWT" in f]
-meta_ROI_list = ["IIT", "GNWT", "Category_Selective"]
+meta_ROI_list = ROI_lookup.values()
 
 all_pyspi_results_for_this_subject_list = []
 
@@ -66,7 +61,7 @@ for csv_file in all_epoch_files:
 
     results_across_ROIs_list = []
 
-    # Combine results across IIT, GNWT, and Category-Selective meta-ROIs
+    # Combine results across meta-ROIs
     for meta_ROI in meta_ROI_list:
         this_ROI_data = pd.read_csv(f"{time_series_path}/sub-{subject_id}_ses-{visit_id}_epochs/{stimulus_type}_{relevance}_{duration}_{epoch_number}_{meta_ROI}_meta_ROI.csv")
         this_ROI_data['duration'] = this_ROI_data['duration'].str.replace('ms', '').astype(int)

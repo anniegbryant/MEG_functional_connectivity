@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Define the batch job array command
-input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_now.txt
 # input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_preproc.txt
 
 # A priori selected regions file
 regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris_ROIs.json
@@ -14,7 +14,7 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 # # Step 1+2 together
 # cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/Cogitate_MEG_preproc_^array_index^.out \
 #    -N Cogitate_MEG_preproc_1 \
-#    -J 1-14 \
+#    -J 1-2 \
 #    -l select=1:ncpus=1:mem=40GB:mpiprocs=1 \
 #    -v input_model_file=$input_model_file,step=0 \
 #    1_preprocess_MEG_subjects.pbs"
@@ -68,27 +68,13 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 # Extract time series across participants
 ##################################################################################################
 
-# Define the command
-num_cores=10
-n_jobs=4
-cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_^array_index^.out \
--N MEG_extract_time_series \
--J 1-14 \
--v input_model_file=$input_model_file,regions_file=$regions_file,n_jobs=$n_jobs \
--l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
-5_extract_time_series.pbs"
-
-echo $cmd
-
-# Run the command
-$cmd
-
 # # Define the command
 # num_cores=10
 # n_jobs=4
-# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_10.out \
-# -N sub-CA118 \
-# -v input_model_file=$input_model_file,regions_file=$regions_file,n_jobs=$n_jobs,line_to_read=10 \
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_^array_index^.out \
+# -N MEG_extract_time_series \
+# -J 1-5 \
+# -v input_model_file=$input_model_file,regions_file=$regions_file,n_jobs=$n_jobs \
 # -l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
 # 5_extract_time_series.pbs"
 
@@ -102,14 +88,15 @@ $cmd
 ##################################################################################################
 
 # Define the command
-# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_^array_index^.out \
-# -N MEG_combine_time_series \
-# -J 1-94 \
-# -v input_model_file=$input_model_file \
-# -l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
-# 6_combine_time_series.pbs"
+cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_^array_index^.out \
+-N MEG_combine_time_series \
+-J 1-3 \
+-v input_model_file=$input_model_file \
+-l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
+6_combine_time_series.pbs"
 
-# echo $cmd
+echo $cmd
+$cmd
 
 # # Combine all epoch-averaged results into one zipped file
 # bids_root=/project/hctsa/annie/data/Cogitate_MEG/
