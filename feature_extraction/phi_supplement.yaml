@@ -1,0 +1,15 @@
+
+# Information-theoretic statistics
+.statistics.infotheory:
+  
+  IntegratedInformation:
+    labels:
+      - undirected
+      - nonlinear
+      - unsigned
+      - bivariate
+      - time-dependent
+    dependencies: 
+      - octave
+    configs:
+      - phitype: "star"

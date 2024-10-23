@@ -18,6 +18,10 @@ parser.add_argument('--bids_root',
                     type=str,
                     default='/project/hctsa/annie/data/Cogitate_MEG/',
                     help='Path to the BIDS root directory')
+parser.add_argument('--SPI_subset',
+                    type=str,
+                    default='fast',
+                    help='Subset of SPIs to compute')
 parser.add_argument('--duration',
                     type=str,
                     default='1000ms',
@@ -28,6 +32,10 @@ subject_id = opt.sub
 bids_root = opt.bids_root
 visit_id = opt.visit_id
 duration = opt.duration
+SPI_subset = opt.SPI_subset
+
+# Get the base name for SPI_subset file
+SPI_subset_base = op.basename(SPI_subset).replace(".yaml", "")
 
 # Time series output path for this subject
 time_series_path = op.join(bids_root, "derivatives", "MEG_time_series")
@@ -35,12 +43,13 @@ output_feature_path = op.join(bids_root, "derivatives", "time_series_features/av
 
 # Define ROI lookup table
 ROI_lookup = {"proc-0": "Category_Selective",
-                "proc-1": "V1_V2",
-                "proc-2": "IPS",
-                "proc-3": "Prefrontal_Cortex"}
+                "proc-1": "IPS",
+                "proc-2": "Prefrontal_Cortex",
+                "proc-3": "V1_V2"}
+region_names = list(ROI_lookup.values())
     
-if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_fast_results_{duration}.csv"):
-    print(f"SPI results for sub-{subject_id} already exist. Skipping.")
+if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_{SPI_subset_base}_results_{duration}.csv"):
+    print(f"{SPI_subset_base} SPI results for sub-{subject_id} already exist. Skipping.")
     exit() 
 
 # Iterate over all the time-series files for this subject
@@ -71,16 +80,19 @@ for stimulus_type in sample_TS_data['stimulus_type'].unique():
                     continue
                 sample_TS_data_list.append(this_condition_data)
 
-
 def run_pyspi_for_df(subject_id, df, calc):
         # Make deepcopy of calc 
         calc_copy = deepcopy(calc)
 
         # Pivot so that the columns are meta_ROI and the rows are data
-        df_wide = (df.filter(items=['times', ROI_lookup.values()])
-                     .melt(id_vars='times', var_name='meta_ROI', value_name='data')
-                     .reset_index()
-                     .pivot(index='meta_ROI', columns='times', values='data'))
+        df_wide = (df.filter(items=['times'] + region_names)
+                        .melt(id_vars='times', var_name='meta_ROI', value_name='data')
+                        .reset_index()
+                        .pivot(index='meta_ROI', columns='times', values='data'))
+                
+        # Print first 5 rows
+        print("First 5 rows of the wide dataframe:")
+        print(df_wide.head())
 
         # Convert to numpy array
         TS_array = df_wide.to_numpy()
@@ -118,7 +130,11 @@ def run_pyspi_for_df(subject_id, df, calc):
 pyspi_res_list = []
 
 # Initialise a base calculator
-calc = Calculator(subset='fast')
+if SPI_subset == "fast":
+    calc = Calculator(subset='fast')
+else:
+    calc = Calculator(configfile=SPI_subset)
+
 
 # Run for data
 for dataframe in sample_TS_data_list:
@@ -127,4 +143,4 @@ for dataframe in sample_TS_data_list:
 
 # Concatenate the results and save to a feather file
 all_pyspi_res = pd.concat(pyspi_res_list).reset_index() 
-all_pyspi_res.to_csv(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_fast_results_{duration}ms.csv", index=False)
+all_pyspi_res.to_csv(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_{SPI_subset_base}_results_{duration}ms.csv", index=False)

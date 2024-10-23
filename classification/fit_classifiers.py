@@ -14,6 +14,7 @@ from copy import deepcopy
 import itertools
 import argparse
 from os import path as op
+from glob import glob
 
 # add path to classification analysis functions
 from mixed_sigmoid_normalisation import MixedSigmoidScaler
@@ -55,8 +56,8 @@ classification_res_path_averaged = f"{classification_res_path}/across_participan
 classification_res_path_individual = f"{classification_res_path}/within_participants"
 
 # Make classification result directories
-os.path.mkdirs(classification_res_path_averaged, exist_ok=True)
-os.path.mkdirs(classification_res_path_individual, exist_ok=True)
+os.makedirs(classification_res_path_averaged, exist_ok=True)
+os.makedirs(classification_res_path_individual, exist_ok=True)
 
 #################################################################################################
 # Classification across participants with averaged epochs
@@ -66,8 +67,9 @@ if classification_type in ['all', 'averaged']:
 
     # Load in pyspi results
     all_pyspi_res_list = []
-    for pyspi_res_file in os.listdir(pyspi_res_path_averaged):
-        pyspi_res = pd.read_csv(f"{pyspi_res_path_averaged}/{pyspi_res_file}")
+    # for pyspi_res_file in os.listdir(pyspi_res_path_averaged):
+    for pyspi_res_file in glob(f"{pyspi_res_path_averaged}/*all_pyspi_results_1000ms.csv"):
+        pyspi_res = pd.read_csv(pyspi_res_file)
         # Reset index
         pyspi_res.reset_index(inplace=True, drop=True)
         pyspi_res['stimulus_type'] = pyspi_res['stimulus_type'].replace(False, 'false').replace('False', 'false')
@@ -84,8 +86,9 @@ if classification_type in ['all', 'averaged']:
 
     # Define comparisons
 
-    # meta-ROI comparisons: GWNT --> CS, CS --> GNWT, IIT --> CS, CS --> IIT
-    meta_roi_comparisons = [("GNWT", "Category_Selective"), ("Category_Selective", "GNWT"), ("IIT", "Category_Selective"), ("Category_Selective", "IIT")]
+    # meta-ROI comparisons
+    meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
+    meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
 
     # Relevance type comparisons
     relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
@@ -102,20 +105,22 @@ if classification_type in ['all', 'averaged']:
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
 
-        for meta_roi_comparison in meta_roi_comparisons:
-            print("ROI Comparison:" + str(meta_roi_comparison))
-            ROI_from, ROI_to = meta_roi_comparison
-            for relevance_type in relevance_type_comparisons:
-                print("Relevance type:" + str(relevance_type))
-                for stimulus_presentation in stimulus_presentation_comparisons:
-                    print("Stimulus presentation:" + str(stimulus_presentation))
-                    # Finally, we get to the final dataset
-                    final_dataset_for_classification = all_pyspi_res.query("meta_ROI_from == @ROI_from & meta_ROI_to == @ROI_to & relevance_type == @relevance_type & stimulus_presentation == @stimulus_presentation").reset_index(drop=True).drop(columns=['index'])
-
-                    for SPI in final_dataset_for_classification.SPI.unique():
+        for relevance_type in relevance_type_comparisons:
+            print("Relevance type:" + str(relevance_type))
+            for stimulus_presentation in stimulus_presentation_comparisons:
+                print("Stimulus presentation:" + str(stimulus_presentation))
+                for SPI in all_pyspi_res.SPI.unique():
+                    # First, look at each meta-ROI pair separately
+                    for meta_roi_comparison in meta_roi_comparisons:
+                        print("ROI Comparison:" + str(meta_roi_comparison))
+                        ROI_from, ROI_to = meta_roi_comparison
+                        # Finally, we get to the final dataset
+                        roi_pair_wise_dataset_for_classification = (all_pyspi_res.query("meta_ROI_from == @ROI_from & meta_ROI_to == @ROI_to & relevance_type == @relevance_type & stimulus_presentation == @stimulus_presentation")
+                                                                    .reset_index(drop=True)
+                                                                    .drop(columns=['index']))
 
                         # Extract this SPI
-                        this_SPI_data = final_dataset_for_classification.query(f"SPI == '{SPI}'")
+                        this_SPI_data = roi_pair_wise_dataset_for_classification.query(f"SPI == '{SPI}'")
 
                         # Find overall number of rows
                         num_rows = this_SPI_data.shape[0]
@@ -281,8 +286,9 @@ if classification_type in ['all', 'individual']:
         # Extract subject ID
         subject_ID = participant_pyspi_res_file.split("_")[0]
 
-        # meta-ROI comparisons: GWNT --> CS, CS --> GNWT, IIT --> CS, CS --> IIT
-        meta_roi_comparisons = [("GNWT", "Category_Selective"), ("Category_Selective", "GNWT"), ("IIT", "Category_Selective"), ("Category_Selective", "IIT")]
+        # meta-ROI comparisons
+        meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
+        meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
 
         if not op.isfile(f"{classification_res_path_individual}/{subject_ID}_comparing_between_stimulus_types_classification_results.csv"):
 
