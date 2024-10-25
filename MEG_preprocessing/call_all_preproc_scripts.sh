@@ -2,7 +2,7 @@
 
 # Define the batch job array command
 # input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
-input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_preproc.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
 
 # A priori selected regions file
 regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris_ROIs.json
@@ -26,7 +26,7 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 ##################################################################################################
 
 # # Define the recon-all command loop
-# cat $input_model_file | while read line 
+# cat $input_model_file | while read line
 # do
 #    subject=$line
 #    cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/recon_all_${subject}.out \
@@ -83,25 +83,39 @@ regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris
 # # Run the command
 # $cmd
 
+# # Individual epochs
+# num_cores=10
+# n_jobs=4
+# for line_to_read in 23 26 43; do
+#    cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_extract_time_series_${line_to_read}.out \
+#       -N ${line_to_read}_time_series \
+#       -l select=1:ncpus=$num_cores:mem=120GB:mpiprocs=$num_cores \
+#       -v line_to_read=$line_to_read,input_model_file=$input_model_file,regions_file=$regions_file,n_jobs=$n_jobs \
+#       5_extract_time_series.pbs"
+#    $cmd
+# done
+
 ##################################################################################################
 # Combine time series for participant
 ##################################################################################################
 
-# Define the command
-cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_^array_index^.out \
--N MEG_combine_time_series \
--J 1-3 \
--v input_model_file=$input_model_file \
--l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
-6_combine_time_series.pbs"
+# # Define the command
+# cmd="qsub -o /project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_^array_index^.out \
+# -N MEG_combine_time_series \
+# -J 1-3 \
+# -v input_model_file=$input_model_file \
+# -l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
+# 6_combine_time_series.pbs"
 
-echo $cmd
-$cmd
+# echo $cmd
+# $cmd
 
-# # Combine all epoch-averaged results into one zipped file
-# bids_root=/project/hctsa/annie/data/Cogitate_MEG/
-# time_series_file_path=$bids_root/derivatives/MEG_time_series
-
-# # File compression
-# cd ${time_series_file_path}
-# zip ${time_series_file_path}/all_epoch_averaged_time_series.zip sub-*_ses-*_meg_*_all_time_series.csv
+# Individual epochs
+for line_to_read in 23 26 43; do
+   cmd="qsub -o project/hctsa/annie/github/MEG_functional_connectivity/cluster_output/MEG_combine_time_series_${line_to_read}.out \
+      -N ${line_to_read}_combine_time_series \
+      -l select=1:ncpus=1:mem=10GB:mpiprocs=1 \
+      -v line_to_read=$line_to_read,input_model_file=$input_model_file \
+      6_combine_time_series.pbs"
+   $cmd
+done

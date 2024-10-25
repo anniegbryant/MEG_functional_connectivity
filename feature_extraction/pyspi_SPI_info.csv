@@ -82,6 +82,7 @@ bary-sq_sgddtw_mean,Undirected,distance,
 bary-sq_sgddtw_max,Undirected,distance,
 bary-sq_softdtw_mean,Undirected,distance,
 bary-sq_softdtw_max,Undirected,distance,
+gwtau,Undirected,distance,
 anm,Directed,causal,M02
 cds,Directed,causal,M02
 reci,Directed,causal,M14

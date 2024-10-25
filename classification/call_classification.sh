@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 
 # Define the batch job array command
-# input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
-input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
+# input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
 
-# github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
-github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
+github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
+# github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
 
-# bids_root=/project/hctsa/annie/data/Cogitate_MEG/
-bids_root=/headnode1/abry4213/data/Cogitate_MEG/
-# input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG.txt
+bids_root=/project/MEG/data/Cogitate_MEG/
+# bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 
 ###################### Averaged epoch classification ##################
 # n_jobs=10
