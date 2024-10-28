@@ -36,7 +36,11 @@ parser.add_argument('--subject_ID',
 parser.add_argument('--classification_type',
                     type=str,
                     default='all',
-                    help='Path to the BIDS root directory')
+                    help='Whether to perform average and/or individual classification; default is all')
+parser.add_argument('--classifier',
+                    type=str,
+                    default='Linear_SVM',
+                    help='Which type of classifier to use')
 opt=parser.parse_args()
 
 bids_root = opt.bids_root
@@ -44,6 +48,7 @@ n_jobs = opt.n_jobs
 subject_ID = opt.subject_ID
 SPI_directionality_file = opt.SPI_directionality_file
 classification_type = opt.classification_type
+classifier = opt.classifier
 
 # Read in SPI directionality info
 SPI_directionality_info = pd.read_csv(SPI_directionality_file)
@@ -60,6 +65,19 @@ classification_res_path_individual = f"{classification_res_path}/within_particip
 # Make classification result directories
 os.makedirs(classification_res_path_averaged, exist_ok=True)
 os.makedirs(classification_res_path_individual, exist_ok=True)
+
+# Define classifier
+if classifier == "Linear_SVM":
+    model = svm.SVC(C=1, class_weight='balanced', kernel='linear', random_state=127)
+else:
+    model = LogisticRegression(penalty='l1', C=1, solver='liblinear', class_weight='balanced', random_state=127)
+
+pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
+                            ('model', model)])
+
+# Define scoring type
+scoring = {'accuracy': 'accuracy',
+           'balanced_accuracy': 'balanced_accuracy'}
 
 #################################################################################################
 # Classification across participants with averaged epochs
@@ -102,8 +120,11 @@ if classification_type == "averaged":
     stimulus_types = all_pyspi_res.stimulus_type.unique().tolist()
     stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
 
+    # Also add in face vs. non-face
+    stimulus_type_comparisons.append(("face", "non-face"))
+
     # Comparing between stimulus types
-    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_classification_results.csv"):
+    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv"):
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
 
@@ -162,40 +183,43 @@ if classification_type == "averaged":
                         # Iterate over stimulus combos
                         for this_combo in stimulus_type_comparisons:
 
-                            # Extract just GNWT/CS data first
-                            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
-
-                            # Define classification model
-                            model = LogisticRegression(penalty='l1', C=1, solver='liblinear', random_state=127)
-                            pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
-                                                    ('model', model)])
+                            # Subset data to the corresponding stimulus pairs
+                            if this_combo == ("face", "non-face"):
+                                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
+                            else:
+                                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
                             # Fit classifier
                             X = final_dataset_for_classification_this_combo.value.to_numpy().reshape(-1, 1)
                             y = final_dataset_for_classification_this_combo.stimulus_type.to_numpy().reshape(-1, 1)
                             groups = final_dataset_for_classification_this_combo.subject_ID.to_numpy().reshape(-1, 1)
+                            groups_flat = np.array([str(item[0]) for item in groups])
 
                             group_stratified_CV = StratifiedGroupKFold(n_splits = 10, shuffle = True, random_state=127)
 
-                            this_classifier_res = cross_validate(pipe, X, y, groups=groups, cv=group_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
-                                                                        return_estimator=False, return_train_score=False)["test_score"].mean()
+                            # Make a deepcopy of the pipeline
+                            this_iter_pipe = deepcopy(pipe)
+                            this_classifier_res = cross_validate(this_iter_pipe, X, y, groups=groups_flat, cv=group_stratified_CV, scoring=scoring, n_jobs=n_jobs, 
+                                                                        return_estimator=False, return_train_score=False)
                             
                             this_SPI_combo_df = pd.DataFrame({"SPI": [SPI], 
-                                                                "meta_ROI_from": [ROI_from],
-                                                                "meta_ROI_to": [ROI_to],
-                                                                "relevance_type": [relevance_type],
-                                                                "stimulus_presentation": [stimulus_presentation],
-                                                                "stimulus_combo": [this_combo], 
-                                                                "accuracy": [this_classifier_res]})
+                                    "classifier": [classifier],
+                                    "meta_ROI_from": [ROI_from],
+                                    "meta_ROI_to": [ROI_to],
+                                    "relevance_type": [relevance_type],
+                                    "stimulus_presentation": [stimulus_presentation],
+                                    "stimulus_combo": [this_combo], 
+                                    "accuracy": [this_classifier_res['test_accuracy'].mean()],
+                                    "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
 
         comparing_between_stimulus_types_classification_results = pd.concat(comparing_between_stimulus_types_classification_results_list).reset_index(drop=True)
-        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_averaged}/comparing_between_stimulus_types_classification_results.csv", index=False)
+        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv", index=False)
 
     # Comparing between relevance types
-    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_relevance_types_classification_results.csv"):
+    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_relevance_types_{classifier}_classification_results.csv"):
         # All comparisons list
         comparing_between_relevance_types_classification_results_list = []
 
@@ -247,33 +271,33 @@ if classification_type == "averaged":
                     # Start an empty list for the classification results
                     SPI_combo_res_list = []
 
-                    # Define classification model
-                    model = LogisticRegression(penalty='l1', C=1, solver='liblinear', random_state=127)
-                    pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
-                                            ('model', model)])
-
                     # Fit classifier
                     X = this_SPI_data.value.to_numpy().reshape(-1, 1)
                     y = this_SPI_data.relevance_type.to_numpy().reshape(-1, 1)
                     groups = this_SPI_data.subject_ID.to_numpy().reshape(-1, 1)
+                    groups_flat = np.array([str(item[0]) for item in groups])
 
                     group_stratified_CV = StratifiedGroupKFold(n_splits = 10, shuffle = True, random_state=127)
 
-                    this_classifier_res = cross_validate(pipe, X, y, groups=groups, cv=group_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
-                                                                return_estimator=False, return_train_score=False)["test_score"].mean()
+                    # Make a deepcopy of the pipeline
+                    this_iter_pipe = deepcopy(pipe)
+
+                    this_classifier_res = cross_validate(this_iter_pipe, X, y, groups=groups_flat, cv=group_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
+                                                                return_estimator=False, return_train_score=False)
                     
                     this_SPI_relevance_results_df = pd.DataFrame({"SPI": [SPI], 
                                                         "meta_ROI_from": [ROI_from],
                                                         "meta_ROI_to": [ROI_to],
                                                         "stimulus_presentation": [stimulus_presentation],
                                                         "comparison": ["Relevant non-target vs. Irrelevant"], 
-                                                        "accuracy": [this_classifier_res]})
+                                                        "accuracy": [this_classifier_res['test_accuracy'].mean()],
+                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
                     
                     # Append to growing results list
                     comparing_between_relevance_types_classification_results_list.append(this_SPI_relevance_results_df)
 
         comparing_between_relevance_types_classification_results = pd.concat(comparing_between_relevance_types_classification_results_list).reset_index(drop=True)
-        comparing_between_relevance_types_classification_results.to_csv(f"{classification_res_path_averaged }/comparing_between_relevance_types_classification_results.csv", index=False)
+        comparing_between_relevance_types_classification_results.to_csv(f"{classification_res_path_averaged }/comparing_between_relevance_types_{classifier}_classification_results.csv", index=False)
 
 #################################################################################################
 # Classification across participants with averaged epochs
@@ -286,7 +310,7 @@ if classification_type == "individual":
 
     # BY STIMULUS TYPE 
     # Load in this subject's pyspi results
-    if not op.isfile(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_stimulus_types_classification_results.csv"):
+    if not op.isfile(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_stimulus_types_{classifier}_classification_results.csv"):
 
         # Load in results
         individual_subject_pyspi_res = pd.read_csv(f"{pyspi_res_path_individual}/sub-{subject_ID}_ses-1_all_pyspi_results_individual_epochs_1000ms.csv")
@@ -304,6 +328,9 @@ if classification_type == "individual":
         # Stimulus type comparisons
         stimulus_types = individual_subject_pyspi_res.stimulus_type.unique().tolist()
         stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
+
+        # Also add in face vs. non-face
+        stimulus_type_comparisons.append(("face", "non-face"))
 
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
@@ -361,13 +388,12 @@ if classification_type == "individual":
                         # Iterate over stimulus combos
                         for this_combo in stimulus_type_comparisons:
 
-                            # Extract just GNWT/CS data first
-                            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
+                            # Subset data to the corresponding stimulus pairs
+                            if this_combo == ("face", "non-face"):
+                                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
+                            else:
+                                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
-                            # Define classification model
-                            model = LogisticRegression(penalty='l1', C=1, solver='liblinear', random_state=127)
-                            pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
-                                                    ('model', model)])
 
                             # Fit classifier
                             X = final_dataset_for_classification_this_combo.value.to_numpy().reshape(-1, 1)
@@ -375,8 +401,10 @@ if classification_type == "individual":
 
                             stimulus_stratified_CV = StratifiedKFold(n_splits = 10, shuffle = True, random_state=127)
 
-                            this_classifier_res = cross_validate(pipe, X, y, cv=stimulus_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
-                                                                        return_estimator=False, return_train_score=False)["test_score"].mean()
+                            # Make a deepcopy of the pipeline
+                            this_iter_pipe = deepcopy(pipe)
+                            this_classifier_res = cross_validate(this_iter_pipe, X, y, cv=stimulus_stratified_CV, scoring=scoring, n_jobs=n_jobs, 
+                                                                        return_estimator=False, return_train_score=False)
                             
                             this_SPI_combo_df = pd.DataFrame({subject_ID: ["sub-" + subject_ID],
                                                                 "SPI": [SPI], 
@@ -385,17 +413,18 @@ if classification_type == "individual":
                                                                 "relevance_type": [relevance_type],
                                                                 "stimulus_presentation": [stimulus_presentation],
                                                                 "stimulus_combo": [this_combo], 
-                                                                "accuracy": [this_classifier_res]})
+                                                                "accuracy": [this_classifier_res['test_accuracy'].mean()],
+                                                                "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
 
         comparing_between_stimulus_types_classification_results = pd.concat(comparing_between_stimulus_types_classification_results_list).reset_index(drop=True)
-        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_stimulus_types_classification_results.csv", index=False)
+        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_stimulus_types_{classifier}_classification_results.csv", index=False)
     
     # Comparing between relevance types
     # BY RELEVANCE TYPE
-    if not os.path.isfile(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_relevance_types_classification_results.csv"):
+    if not os.path.isfile(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_relevance_types_{classifier}_classification_results.csv"):
         
         # Load in results
         individual_subject_pyspi_res = pd.read_csv(f"{pyspi_res_path_individual}/sub-{subject_ID}_ses-1_all_pyspi_results_individual_epochs_1000ms.csv")
@@ -408,10 +437,6 @@ if classification_type == "individual":
 
         # Stimulus presentation comparisons
         stimulus_presentation_comparisons = individual_subject_pyspi_res.stimulus_presentation.unique().tolist()
-
-        # Stimulus type comparisons
-        stimulus_types = individual_subject_pyspi_res.stimulus_type.unique().tolist()
-        stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
 
         # All comparisons list
         comparing_between_relevance_types_classification_results_list = []
@@ -464,20 +489,16 @@ if classification_type == "individual":
                     # Start an empty list for the classification results
                     SPI_combo_res_list = []
 
-                    # Define classification model
-                    model = LogisticRegression(penalty='l1', C=1, solver='liblinear', random_state=127)
-                    pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
-                                            ('model', model)])
-
                     # Fit classifier
                     X = this_SPI_data.value.to_numpy().reshape(-1, 1)
                     y = this_SPI_data.relevance_type.to_numpy().reshape(-1, 1)
-                    groups = this_SPI_data.subject_ID.to_numpy().reshape(-1, 1)
 
                     stimulus_stratified_CV = StratifiedKFold(n_splits = 10, shuffle = True, random_state=127)
 
-                    this_classifier_res = cross_validate(pipe, X, y, cv=stimulus_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
-                                                                return_estimator=False, return_train_score=False)["test_score"].mean()
+                    # Make a deepcopy of the pipeline
+                    this_iter_pipe = deepcopy(pipe)
+                    this_classifier_res = cross_validate(this_iter_pipe, X, y, cv=stimulus_stratified_CV, scoring=scoring, n_jobs=n_jobs, 
+                                            return_estimator=False, return_train_score=False)
                     
                     this_SPI_relevance_results_df = pd.DataFrame({subject_ID: ["sub-" + subject_ID],
                                                         "SPI": [SPI], 
@@ -485,10 +506,11 @@ if classification_type == "individual":
                                                         "meta_ROI_to": [ROI_to],
                                                         "stimulus_presentation": [stimulus_presentation],
                                                         "comparison": ["Relevant non-target vs. Irrelevant"], 
-                                                        "accuracy": [this_classifier_res]})
+                                                        "accuracy": [this_classifier_res['test_accuracy'].mean()],
+                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
                     
                     # Append to growing results list
                     comparing_between_relevance_types_classification_results_list.append(this_SPI_relevance_results_df)
 
         comparing_between_relevance_types_classification_results = pd.concat(comparing_between_relevance_types_classification_results_list).reset_index(drop=True)
-        comparing_between_relevance_types_classification_results.to_csv(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_relevance_types_classification_results.csv", index=False)
+        comparing_between_relevance_types_classification_results.to_csv(f"{classification_res_path_individual}/sub-{subject_ID}_comparing_between_relevance_types_{classifier}_classification_results.csv", index=False)
