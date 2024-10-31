@@ -11,15 +11,15 @@ bids_root=/project/MEG/data/Cogitate_MEG/
 # bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 
 ###################### Averaged epoch classification ##################
-n_jobs=10
-for classifier in Linear_SVM Logistic_Regression; do
-   cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_group_averaged_${classifier}classification.out \
-      -N ${classifier}_MEG_averaged_classification \
-      -l select=1:ncpus=$n_jobs:mem=20GB:mpiprocs=$n_jobs \
-      -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier \
-      run_averaged_classifiers.pbs"
-   $cmd
-done
+# n_jobs=10
+# for classifier in Linear_SVM Logistic_Regression; do
+#    cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_group_averaged_${classifier}classification.out \
+#       -N ${classifier}_MEG_averaged_classification \
+#       -l select=1:ncpus=$n_jobs:mem=20GB:mpiprocs=$n_jobs \
+#       -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier \
+#       run_averaged_classifiers.pbs"
+#    $cmd
+# done
 
 ###################### Indivivdual epoch classification ##################
 n_jobs=10
