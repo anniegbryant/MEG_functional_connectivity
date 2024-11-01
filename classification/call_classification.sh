@@ -21,14 +21,15 @@ bids_root=/project/MEG/data/Cogitate_MEG/
 #    $cmd
 # done
 
-###################### Indivivdual epoch classification ##################
+########## Indivivdual epoch classification, with subsampling #########
 n_jobs=10
+classification_type=individual_subsampled
 for classifier in Linear_SVM Logistic_Regression; do
-   cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_individual_epoch_${classifier}_classification_^array_index^.out \
+   cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_individual_epoch_${classifier}_subsampled_classification_^array_index^.out \
       -N ${classifier}_MEG_individual_classification \
       -J 1-94 \
       -l select=1:ncpus=$n_jobs:mem=20GB:mpiprocs=$n_jobs \
-      -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier \
+      -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier,classification_type=$classification_type \
       run_individual_classifiers.pbs"
    $cmd
 done
