@@ -69,7 +69,7 @@ os.makedirs(classification_res_path_individual, exist_ok=True)
 
 # Define classifier
 if classifier == "Linear_SVM":
-    model = svm.SVC(C=1, class_weight='balanced', kernel='linear', random_state=127)
+    model = svm.SVC(C=1, class_weight='balanced', kernel='linear', random_state=127, probability=True)
 else:
     model = LogisticRegression(penalty='l1', C=1, solver='liblinear', class_weight='balanced', random_state=127)
 
