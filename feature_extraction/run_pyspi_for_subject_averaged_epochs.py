@@ -138,7 +138,7 @@ else:
 
 # Run for data
 for dataframe in sample_TS_data_list:
-    dataframe_pyspi = run_pyspi_for_df(subject_id, dataframe, calc).assign(stimulus = "on")
+    dataframe_pyspi = run_pyspi_for_df(subject_id, dataframe, calc)
     pyspi_res_list.append(dataframe_pyspi)
 
 # Concatenate the results and save to a feather file

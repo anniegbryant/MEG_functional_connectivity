@@ -105,7 +105,7 @@ catch24_res_list = []
 
 # Run for data
 for dataframe in sample_TS_data_list:
-    dataframe_catch24 = run_catch24_for_df(subject_id, dataframe).assign(stimulus="on")
+    dataframe_catch24 = run_catch24_for_df(subject_id, dataframe)
     catch24_res_list.append(dataframe_catch24)
 
 # Concatenate the results and save to a feather file

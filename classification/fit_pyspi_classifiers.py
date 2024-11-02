@@ -13,6 +13,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.utils import resample
 import itertools
 import argparse
+from joblib import Parallel, delayed
 
 # add path to classification analysis functions
 from mixed_sigmoid_normalisation import MixedSigmoidScaler
@@ -81,16 +82,128 @@ scoring = {'accuracy': 'accuracy',
            'balanced_accuracy': 'balanced_accuracy',
            'AUC': make_scorer(roc_auc_score, needs_proba=True)}
 
-# Defiene cross-validators
+# meta-ROI comparisons
+meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
+meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
+
+# Relevance type comparisons
+relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
+
+# Stimulus presentation comparisons
+stimulus_presentation_comparisons = ["on", "off"]
+
+# Define all combinations
+all_combos = list(itertools.product(["relevant_to_irrelevant", "irrelevant_to_relevant"], 
+                                    ["on", "off"], 
+                                    meta_roi_comparisons))
+
+# Define cross-validators
 LOOCV = LeaveOneOut()
 SKF = StratifiedKFold(n_splits=5, shuffle=True, random_state=127)
+
+# Helper function for cross-task analysis
+def cross_task_classifier(direction, meta_roi_comparison, stimulus_presentation, pyspi_data):
+    ROI_from, ROI_to = meta_roi_comparison
+    # Filter pyspi data
+    pyspi_data = (pyspi_data.query("meta_ROI_from == @ROI_from & meta_ROI_to == @ROI_to & stimulus_presentation == @stimulus_presentation")
+                    .reset_index(drop=True)
+                    .drop(columns=['index']))
+    
+    # All comparisons list
+    cross_task_classification_results_list = []
+
+    for SPI in pyspi_data.SPI.unique():
+        # Extract this SPI
+        this_SPI_data = pyspi_data.query(f"SPI == '{SPI}'")
+
+        # Find overall number of rows
+        num_rows = this_SPI_data.shape[0]
+
+        # Extract SPI values
+        this_column_data = this_SPI_data["value"]
+
+        # Find number of NaN in this column 
+        num_NaN = this_column_data.isna().sum()
+        prop_NaN = num_NaN / num_rows
+
+        # Find mode and SD
+        column_mode_max = this_column_data.value_counts().max()
+        column_SD = this_column_data.std()
+
+        # If 0% < num_NaN < 10%, impute by the mean of each component
+        if 0 < prop_NaN < 0.1:
+            values_imputed = (this_column_data
+                                .transform(lambda x: x.fillna(x.mean())))
+
+            this_column_data = values_imputed
+            print(f"Imputing column values for {SPI}")
+            this_SPI_data["value"] = this_column_data
+
+        # If there are: 
+        # - more than 10% NaN values;
+        # - more than 90% of the values are the same; OR
+        # - the standard deviation is less than 1*10**(-10)
+        # then remove the column
+        if prop_NaN > 0.1 or column_mode_max / num_rows > 0.9 or column_SD < 1*10**(-10):
+            print(f"{SPI} has low SD: {column_SD}, and/or too many mode occurences: {column_mode_max} out of {num_rows}, and/or {100*prop_NaN}% NaN")
+            continue
+    
+        # Iterate over stimulus combos
+        for this_combo in stimulus_type_comparisons:
+
+            # Subset data to the corresponding stimulus pairs
+            if this_combo == ("face", "non-face"):
+                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
+            else:
+                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
+
+            if direction == "relevant_to_irrelevant":
+                train_df = final_dataset_for_classification_this_combo.query("relevance_type == 'Relevant-non-target'")
+                test_df = final_dataset_for_classification_this_combo.query("relevance_type == 'Irrelevant'")
+            else:
+                train_df = final_dataset_for_classification_this_combo.query("relevance_type == 'Irrelevant'")
+                test_df = final_dataset_for_classification_this_combo.query("relevance_type == 'Relevant-non-target'")
+
+            # Make a deepcopy of the pipeline
+            this_iter_pipe = deepcopy(pipe)
+
+            # Fit classifier
+            X_train = train_df.value.to_numpy().reshape(-1, 1)
+            y_train = train_df.stimulus_type.to_numpy().reshape(-1, 1)
+            X_test = test_df.value.to_numpy().reshape(-1, 1)
+            y_test = test_df.stimulus_type.to_numpy().reshape(-1, 1)
+
+            this_iter_pipe.fit(X_train, y_train)
+            y_pred = this_iter_pipe.predict(X_test)
+
+            # Compute accuracy, balanced accuracy, and AUC
+            accuracy = accuracy_score(y_test, y_pred)
+            balanced_accuracy = balanced_accuracy_score(y_test, y_pred)
+            
+            this_SPI_combo_df = pd.DataFrame({"SPI": [SPI], 
+                    "classifier": [classifier],
+                    "meta_ROI_from": [ROI_from],
+                    "meta_ROI_to": [ROI_to],
+                    "cross_task_direction": [direction],
+                    "stimulus_presentation": [stimulus_presentation],
+                    "stimulus_combo": [this_combo], 
+                    "accuracy": [accuracy],
+                    "balanced_accuracy": [balanced_accuracy]})
+            
+            # Append to growing results list
+            cross_task_classification_results_list.append(this_SPI_combo_df)
+
+    # Concatenate all results
+    cross_task_classification_results_df = pd.concat(cross_task_classification_results_list)
+
+    # Return results
+    return cross_task_classification_results_df
 
 #################################################################################################
 # Classification across participants with averaged epochs
 #################################################################################################
 
 if classification_type == "averaged":
-
     # Load in pyspi results
     all_pyspi_res_list = []
     # for pyspi_res_file in os.listdir(pyspi_res_path_averaged):
@@ -109,18 +222,6 @@ if classification_type == "averaged":
 
         all_pyspi_res_list.append(pyspi_res)
     all_pyspi_res = pd.concat(all_pyspi_res_list)
-
-    # Define comparisons
-
-    # meta-ROI comparisons
-    meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
-    meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
-
-    # Relevance type comparisons
-    relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
-
-    # Stimulus presentation comparisons
-    stimulus_presentation_comparisons = ["on", "off"]
 
     # Stimulus type comparisons
     stimulus_types = all_pyspi_res.stimulus_type.unique().tolist()
@@ -304,6 +405,18 @@ if classification_type == "averaged":
 
         comparing_between_relevance_types_classification_results = pd.concat(comparing_between_relevance_types_classification_results_list).reset_index(drop=True)
         comparing_between_relevance_types_classification_results.to_csv(f"{classification_res_path_averaged }/comparing_between_relevance_types_{classifier}_classification_results.csv", index=False)
+
+    # Cross-task learning
+    if not os.path.isfile(f"{classification_res_path_averaged}/cross_task_{classifier}_classification_results.csv"):
+        print("Starting cross-task classification")
+        cross_task_classification_results_list = Parallel(n_jobs=int(n_jobs))(delayed(cross_task_classifier)(direction=direction, 
+                                                                    meta_roi_comparison=meta_roi_comparison, 
+                                                                    stimulus_presentation=stimulus_presentation, 
+                                                                    pyspi_data=all_pyspi_res)
+                                                for direction, stimulus_presentation, meta_roi_comparison in all_combos)
+
+        cross_task_classification_results = pd.concat(cross_task_classification_results_list).reset_index(drop=True)
+        cross_task_classification_results.to_csv(f"{classification_res_path_averaged}/cross_task_{classifier}_classification_results.csv", index=False)
 
 #################################################################################################
 # Classification across participants with individual epochs
