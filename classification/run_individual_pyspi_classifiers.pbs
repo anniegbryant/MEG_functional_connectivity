@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -j oe
-#PBS -l walltime=24:00:00
+#PBS -l walltime=96:00:00
 #PBS -P hctsa
 #PBS -V
 
@@ -34,7 +34,7 @@ export SPI_directionality_file=$github_repo/feature_extraction/pyspi_SPI_info.cs
 
 ################################## Call classifiers ###################################
 
-python3 $classification_code_dir/fit_classifiers.py --bids_root $bids_root --n_jobs $n_jobs \
+python3 $classification_code_dir/fit_pyspi_classifiers.py --bids_root $bids_root --n_jobs $n_jobs \
     --SPI_directionality_file $SPI_directionality_file \
     --classification_type $classification_type \
     --subject_ID $subject \

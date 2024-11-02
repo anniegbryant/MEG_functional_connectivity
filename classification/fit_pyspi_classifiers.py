@@ -624,7 +624,7 @@ if classification_type == "individual_subsampled":
                             if np.unique(y, return_counts=True)[1].min() > 20:
                                 print(f"Running subsampled classification for {this_combo}")
                                 classification_across_iters_list = []
-                                # For 100 iterations, randomly sample 20 samples from each class for leave-one-out classification
+                                # For 50 iterations, randomly sample 20 samples from each class for leave-one-out classification
                                 for iter_num in range(100):
                                     # Randomly sample 20 samples from each class for leave-one-out classification
                                     X_resampled = []
