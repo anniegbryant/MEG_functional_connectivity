@@ -52,9 +52,7 @@ if op.isfile(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_{
     print(f"{SPI_subset_base} SPI results for sub-{subject_id} already exist. Skipping.")
     exit() 
 
-# Iterate over all the time-series files for this subject
-sample_TS_data_list = []
-
+# Read in the time-series data for this subject
 sample_TS_data=pd.read_csv(f"{time_series_path}/sub-{subject_id}_ses-{visit_id}_meg_{duration}_all_time_series.csv")
 sample_TS_data['duration'] = sample_TS_data['duration'].str.replace('ms', '').astype(int)
 sample_TS_data['times'] = np.round(sample_TS_data['times']*1000)
