@@ -84,7 +84,15 @@ scoring = {'accuracy': 'accuracy',
 
 # meta-ROI comparisons
 meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
-meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
+
+# Manually define combinations
+meta_roi_comparisons = [("Category_Selective", "IPS"),
+                        ("Category_Selective", "Prefrontal_Cortex"),
+                        ("Category_Selective", "V1_V2"),
+                        ("IPS", "Category_Selective"),
+                        ("Prefrontal_Cortex", "Category_Selective"),
+                        ("V1_V2", "Category_Selective")]
+# meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
 
 # Relevance type comparisons
 relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
@@ -92,8 +100,8 @@ relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
 # Stimulus presentation comparisons
 stimulus_presentation_comparisons = ["on", "off"]
 
-# Define all combinations
-all_combos = list(itertools.product(["relevant_to_irrelevant", "irrelevant_to_relevant"], 
+# Define all combinations for cross-task classification
+all_combos_for_cross_task = list(itertools.product(["relevant_to_irrelevant", "irrelevant_to_relevant"], 
                                     ["on", "off"], 
                                     meta_roi_comparisons))
 
@@ -227,9 +235,6 @@ if classification_type == "averaged":
     stimulus_types = all_pyspi_res.stimulus_type.unique().tolist()
     stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
 
-    # Also add in face vs. non-face
-    stimulus_type_comparisons.append(("face", "non-face"))
-
     # Comparing between stimulus types
     if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv"):
         # All comparisons list
@@ -317,7 +322,9 @@ if classification_type == "averaged":
                                     "stimulus_presentation": [stimulus_presentation],
                                     "stimulus_combo": [this_combo], 
                                     "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                    "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                    "accuracy_SD": [this_classifier_res['test_accuracy'].std()],
+                                    "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()],
+                                    "balanced_accuracy_SD": [this_classifier_res['test_balanced_accuracy'].std()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
@@ -398,7 +405,9 @@ if classification_type == "averaged":
                                                         "stimulus_presentation": [stimulus_presentation],
                                                         "comparison": ["Relevant non-target vs. Irrelevant"], 
                                                         "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                                        "accuracy_SD": [this_classifier_res['test_accuracy'].std()],
+                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()],
+                                                        "balanced_accuracy_SD": [this_classifier_res['test_balanced_accuracy'].std()]})
                     
                     # Append to growing results list
                     comparing_between_relevance_types_classification_results_list.append(this_SPI_relevance_results_df)
@@ -413,7 +422,7 @@ if classification_type == "averaged":
                                                                     meta_roi_comparison=meta_roi_comparison, 
                                                                     stimulus_presentation=stimulus_presentation, 
                                                                     pyspi_data=all_pyspi_res)
-                                                for direction, stimulus_presentation, meta_roi_comparison in all_combos)
+                                                for direction, stimulus_presentation, meta_roi_comparison in all_combos_for_cross_task)
 
         cross_task_classification_results = pd.concat(cross_task_classification_results_list).reset_index(drop=True)
         cross_task_classification_results.to_csv(f"{classification_res_path_averaged}/cross_task_{classifier}_classification_results.csv", index=False)
