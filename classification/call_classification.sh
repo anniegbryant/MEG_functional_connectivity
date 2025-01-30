@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 # Define the batch job array command
-# input_model_file=/project/MEG/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
-input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
+input_model_file=/project/MEG/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
+# input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
 
-# github_repo=/project/MEG/github/MEG_functional_connectivity
-github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
+github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
+# github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
 
-# bids_root=/project/MEG/data/Cogitate_MEG/
-bids_root=/headnode1/abry4213/data/Cogitate_MEG/
+bids_root=/project/MEG/data/Cogitate_MEG/
+# bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 
 # ###################### Averaged epoch classification, catch24 ##################
 # n_jobs=10
@@ -22,7 +22,7 @@ bids_root=/headnode1/abry4213/data/Cogitate_MEG/
 # done
 
 ###################### Averaged epoch classification, pyspi ##################
-n_jobs=24
+n_jobs=29
 # for classifier in Linear_SVM Logistic_Regression; do
 for classifier in Logistic_Regression; do
    cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_group_averaged_pyspi_${classifier}_classification.out \
