@@ -42,10 +42,16 @@ rh_dk_parcels_of_interest <- case_when(rh_dk_annot$label_names %in% c("fusiform"
 dk_atlas_rois_on_surface = vis.symmetric.data.on.subject(subjects_dir, vis_subject_id=subject_id, 
                                                          morph_data_lh=lh_dk_parcels_of_interest, 
                                                          morph_data_rh=rh_dk_parcels_of_interest, 
-                                                         bg="sulc_light",
+                                                         bg=NULL,
                                                          makecmap_options = list('colFn'=viridis),
                                                          surface="inflated", draw_colorbar = T,
-                                                         rglactions = list('shift_hemis_apart'=TRUE, 'no_vis'=T))
+                                                         rglactions = list('shift_hemis_apart'=TRUE, 
+                                                                           'no_vis'=T,
+                                                                           'light_intensity' = 0.2,  # Light intensity adjustment
+                                                                           'ambient_light' = 0.2,    # Softer lighting
+                                                                           'specular' = 0.2,         # Matte effect
+                                                                           'shininess' = 1,          # Low shininess for matte
+                                                                           'light_direction' = c(1, 1, 1)))  # Direction of light))
 
 # Export the vis
 export(dk_atlas_rois_on_surface, img_only = TRUE, 
