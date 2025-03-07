@@ -80,7 +80,7 @@ pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)),
 # Define scoring type
 scoring = {'accuracy': 'accuracy',
            'balanced_accuracy': 'balanced_accuracy',
-           'AUC': make_scorer(roc_auc_score, needs_proba=True)}
+           'AUC': make_scorer(roc_auc_score, response_method='predict_proba')}
 
 # meta-ROI comparisons
 meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]

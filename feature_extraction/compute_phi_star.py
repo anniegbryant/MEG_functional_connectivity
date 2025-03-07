@@ -77,10 +77,10 @@ def compute_phi_star_for_subj(subject_ID, MEG_time_series_dir, visit_id, duratio
     this_calc = deepcopy(base_calc)
 
     # Define the output file
-    output_file = f"{output_feature_path}/sub-{subject_ID}_ses-{visit_id}_all_pyspi_phi_star_results_{duration}ms.csv"
+    output_file = f"{output_feature_path}/{subject_ID}_ses-{visit_id}_all_phi_star_results_{duration}ms.csv"
     if op.isfile(output_file):
         print(f"phi-star SPI results for sub-{subject_ID} already exist. Skipping.")
-        exit() 
+        return
 
     # Initialise an empty list for the results
     pyspi_res_list = []
@@ -160,8 +160,18 @@ if __name__ == "__main__":
                                   output_feature_path=f"{deriv_dir}/time_series_features/averaged_epochs")
                               for subject in subject_list)
     
-    # for subject in subject_list:
-    #     print(f"Computing phi star for sub-{subject}")
-    #     compute_phi_star_for_subj(subject_ID=f"sub-{subject}", MEG_time_series_dir=MEG_time_series_dir, 
-    #                               visit_id="1", duration="1000", base_calc=calc, 
-    #                               output_feature_path=f"{deriv_dir}/time_series_features/averaged_epochs")
+    # Combine phi star results
+    for subject in subject_list:
+        print(f"Combining phi-star with main results for sub-{subject}")
+
+        # Load subject's main pyspi results
+        subject_main_pyspi_res = pd.read_csv(f"{deriv_dir}/time_series_features/averaged_epochs/sub-{subject}_ses-1_all_pyspi_results_1000ms.csv")
+
+        # Load subject's phi-star results
+        subject_phi_star_pyspi_res = pd.read_csv(f"{deriv_dir}/time_series_features/averaged_epochs/sub-{subject}_ses-1_all_phi_star_results_1000ms.csv")
+
+        # Combine the two dataframes
+        combined_pyspi_res = pd.concat([subject_main_pyspi_res, subject_phi_star_pyspi_res])
+
+        # Save the combined dataframe
+        combined_pyspi_res.to_csv(f"{deriv_dir}/time_series_features/averaged_epochs/sub-{subject}_ses-1_all_pyspi_results_1000ms.csv", index=False)
