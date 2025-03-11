@@ -80,11 +80,19 @@ pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)),
 # Define scoring type
 scoring = {'accuracy': 'accuracy',
            'balanced_accuracy': 'balanced_accuracy',
-           'AUC': make_scorer(roc_auc_score, needs_proba=True)}
+           'AUC': make_scorer(roc_auc_score, response_method='predict_proba')}
 
 # meta-ROI comparisons
 meta_ROIs = ["Category_Selective", "IPS", "Prefrontal_Cortex", "V1_V2"]
-meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
+
+# Manually define combinations
+meta_roi_comparisons = [("Category_Selective", "IPS"),
+                        ("Category_Selective", "Prefrontal_Cortex"),
+                        ("Category_Selective", "V1_V2"),
+                        ("IPS", "Category_Selective"),
+                        ("Prefrontal_Cortex", "Category_Selective"),
+                        ("V1_V2", "Category_Selective")]
+# meta_roi_comparisons = list(itertools.permutations(meta_ROIs, 2))
 
 # Relevance type comparisons
 relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
@@ -92,8 +100,8 @@ relevance_type_comparisons = ["Relevant-non-target", "Irrelevant"]
 # Stimulus presentation comparisons
 stimulus_presentation_comparisons = ["on", "off"]
 
-# Define all combinations
-all_combos = list(itertools.product(["relevant_to_irrelevant", "irrelevant_to_relevant"], 
+# Define all combinations for cross-task classification
+all_combos_for_cross_task = list(itertools.product(["relevant_to_irrelevant", "irrelevant_to_relevant"], 
                                     ["on", "off"], 
                                     meta_roi_comparisons))
 
@@ -152,10 +160,7 @@ def cross_task_classifier(direction, meta_roi_comparison, stimulus_presentation,
         for this_combo in stimulus_type_comparisons:
 
             # Subset data to the corresponding stimulus pairs
-            if this_combo == ("face", "non-face"):
-                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
-            else:
-                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
+            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
             if direction == "relevant_to_irrelevant":
                 train_df = final_dataset_for_classification_this_combo.query("relevance_type == 'Relevant-non-target'")
@@ -227,9 +232,6 @@ if classification_type == "averaged":
     stimulus_types = all_pyspi_res.stimulus_type.unique().tolist()
     stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
 
-    # Also add in face vs. non-face
-    stimulus_type_comparisons.append(("face", "non-face"))
-
     # Comparing between stimulus types
     if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv"):
         # All comparisons list
@@ -291,10 +293,7 @@ if classification_type == "averaged":
                         for this_combo in stimulus_type_comparisons:
 
                             # Subset data to the corresponding stimulus pairs
-                            if this_combo == ("face", "non-face"):
-                                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
-                            else:
-                                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
+                            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
                             # Fit classifier
                             X = final_dataset_for_classification_this_combo.value.to_numpy().reshape(-1, 1)
@@ -317,7 +316,7 @@ if classification_type == "averaged":
                                     "stimulus_presentation": [stimulus_presentation],
                                     "stimulus_combo": [this_combo], 
                                     "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                    "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                    "accuracy_SD": [this_classifier_res['test_accuracy'].std()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
@@ -389,7 +388,7 @@ if classification_type == "averaged":
                     # Make a deepcopy of the pipeline
                     this_iter_pipe = deepcopy(pipe)
 
-                    this_classifier_res = cross_validate(this_iter_pipe, X, y, groups=groups_flat, cv=group_stratified_CV, scoring="accuracy", n_jobs=n_jobs, 
+                    this_classifier_res = cross_validate(this_iter_pipe, X, y, groups=groups_flat, cv=group_stratified_CV, scoring=scoring, n_jobs=n_jobs, 
                                                                 return_estimator=False, return_train_score=False)
                     
                     this_SPI_relevance_results_df = pd.DataFrame({"SPI": [SPI], 
@@ -398,7 +397,7 @@ if classification_type == "averaged":
                                                         "stimulus_presentation": [stimulus_presentation],
                                                         "comparison": ["Relevant non-target vs. Irrelevant"], 
                                                         "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                                        "accuracy_SD": [this_classifier_res['test_accuracy'].std()]})
                     
                     # Append to growing results list
                     comparing_between_relevance_types_classification_results_list.append(this_SPI_relevance_results_df)
@@ -413,7 +412,7 @@ if classification_type == "averaged":
                                                                     meta_roi_comparison=meta_roi_comparison, 
                                                                     stimulus_presentation=stimulus_presentation, 
                                                                     pyspi_data=all_pyspi_res)
-                                                for direction, stimulus_presentation, meta_roi_comparison in all_combos)
+                                                for direction, stimulus_presentation, meta_roi_comparison in all_combos_for_cross_task)
 
         cross_task_classification_results = pd.concat(cross_task_classification_results_list).reset_index(drop=True)
         cross_task_classification_results.to_csv(f"{classification_res_path_averaged}/cross_task_{classifier}_classification_results.csv", index=False)
@@ -447,9 +446,6 @@ if classification_type == "individual":
         # Stimulus type comparisons
         stimulus_types = individual_subject_pyspi_res.stimulus_type.unique().tolist()
         stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
-
-        # Also add in face vs. non-face
-        stimulus_type_comparisons.append(("face", "non-face"))
 
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
@@ -508,11 +504,7 @@ if classification_type == "individual":
                         for this_combo in stimulus_type_comparisons:
 
                             # Subset data to the corresponding stimulus pairs
-                            if this_combo == ("face", "non-face"):
-                                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
-                            else:
-                                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
-
+                            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
                             # Fit classifier
                             X = final_dataset_for_classification_this_combo.value.to_numpy().reshape(-1, 1)
@@ -533,7 +525,7 @@ if classification_type == "individual":
                                                                 "stimulus_presentation": [stimulus_presentation],
                                                                 "stimulus_combo": [this_combo], 
                                                                 "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                                                "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                                                "accuracy_SD": [this_classifier_res['test_accuracy'].std()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
@@ -626,7 +618,7 @@ if classification_type == "individual":
                                                         "stimulus_presentation": [stimulus_presentation],
                                                         "comparison": ["Relevant non-target vs. Irrelevant"], 
                                                         "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                                        "balanced_accuracy": [this_classifier_res['test_balanced_accuracy'].mean()]})
+                                                        "accuracy_SD": [this_classifier_res['test_accuracy'].std()]})
                     
                     # Append to growing results list
                     comparing_between_relevance_types_classification_results_list.append(this_SPI_relevance_results_df)
@@ -663,9 +655,6 @@ if classification_type == "individual_subsampled":
         # Stimulus type comparisons
         stimulus_types = individual_subject_pyspi_res.stimulus_type.unique().tolist()
         stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
-
-        # Also add in face vs. non-face
-        stimulus_type_comparisons.append(("face", "non-face"))
 
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
@@ -724,10 +713,7 @@ if classification_type == "individual_subsampled":
                         for this_combo in stimulus_type_comparisons:
 
                             # Subset data to the corresponding stimulus pairs
-                            if this_combo == ("face", "non-face"):
-                                final_dataset_for_classification_this_combo = this_SPI_data.assign(stimulus_type = lambda x: np.where(x.stimulus_type == "face", "face", "non-face"))
-                            else:
-                                final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
+                            final_dataset_for_classification_this_combo = this_SPI_data.query(f"stimulus_type in {this_combo}")
 
                             # Fit classifier
                             X = final_dataset_for_classification_this_combo.value.to_numpy().reshape(-1, 1)

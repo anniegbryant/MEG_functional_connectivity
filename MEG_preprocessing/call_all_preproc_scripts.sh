@@ -2,10 +2,10 @@
 
 # Define the batch job array command
 # input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
-input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_with_all_data.txt
+input_model_file=/project/hctsa/annie/github/MEG_functional_connectivity/metadata/subject_list_Cogitate_MEG_with_all_data.txt
 
 # A priori selected regions file
-regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/annie_chris_ROIs.json
+regions_file=/project/hctsa/annie/github/MEG_functional_connectivity/brain_regions_a_priori.json
 
 ##################################################################################################
 # Preprocessing [Artemis, batch array]
