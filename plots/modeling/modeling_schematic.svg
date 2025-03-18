@@ -28,9 +28,9 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.61793315"
-     inkscape:cx="686.96751"
-     inkscape:cy="629.51793"
+     inkscape:zoom="0.85765219"
+     inkscape:cx="482.13017"
+     inkscape:cy="419.75057"
      inkscape:window-width="1440"
      inkscape:window-height="847"
      inkscape:window-x="0"
@@ -3395,15 +3395,9 @@
        transform="matrix(0.65842488,0,0,0.9477589,505.2127,238.67689)"><tspan
          x="40.528038"
          y="181.04457"
-<<<<<<< Updated upstream
-         id="tspan76084"><tspan
-           style="text-align:center;text-anchor:middle;stroke:none"
-           id="tspan76082">0</tspan></tspan></text><text
-=======
          id="tspan12"><tspan
            style="text-align:center;text-anchor:middle;stroke:none"
            id="tspan11">0</tspan></tspan></text><text
->>>>>>> Stashed changes
        xml:space="preserve"
        style="font-size:5.89613px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:start;white-space:pre;inline-size:27.5624;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.677;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        x="40.528038"
@@ -3412,15 +3406,9 @@
        transform="matrix(0.65842488,0,0,0.9477589,517.57256,238.67689)"><tspan
          x="40.528038"
          y="181.04457"
-<<<<<<< Updated upstream
-         id="tspan76088"><tspan
-           style="text-align:center;text-anchor:middle;stroke:none"
-           id="tspan76086">500</tspan></tspan></text><text
-=======
          id="tspan14"><tspan
            style="text-align:center;text-anchor:middle;stroke:none"
            id="tspan13">500</tspan></tspan></text><text
->>>>>>> Stashed changes
        xml:space="preserve"
        style="font-size:5.89613px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:start;white-space:pre;inline-size:27.5624;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.677;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        x="40.528038"
@@ -3429,15 +3417,9 @@
        transform="matrix(0.65842488,0,0,0.9477589,529.84891,238.67689)"><tspan
          x="40.528038"
          y="181.04457"
-<<<<<<< Updated upstream
-         id="tspan76092"><tspan
-           style="text-align:center;text-anchor:middle;stroke:none"
-           id="tspan76090">1000</tspan></tspan></text><text
-=======
          id="tspan16"><tspan
            style="text-align:center;text-anchor:middle;stroke:none"
            id="tspan15">1000</tspan></tspan></text><text
->>>>>>> Stashed changes
        xml:space="preserve"
        style="font-size:5.89613px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:start;white-space:pre;inline-size:27.5624;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.677;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        x="40.528038"
@@ -3446,15 +3428,9 @@
        transform="matrix(0.65842488,0,0,0.9477589,541.45716,238.67689)"><tspan
          x="40.528038"
          y="181.04457"
-<<<<<<< Updated upstream
-         id="tspan76096"><tspan
-           style="text-align:center;text-anchor:middle;stroke:none"
-           id="tspan76094">1500</tspan></tspan></text><text
-=======
          id="tspan18"><tspan
            style="text-align:center;text-anchor:middle;stroke:none"
            id="tspan17">1500</tspan></tspan></text><text
->>>>>>> Stashed changes
        xml:space="preserve"
        style="font-size:4.88233px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:center;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:middle;fill:#5b8c00;fill-opacity:1;stroke:#000000;stroke-width:0.726205;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        x="663.60449"
@@ -3517,42 +3493,6 @@
        id="path65475-2"
        sodipodi:nodetypes="cc" /><text
        xml:space="preserve"
-<<<<<<< Updated upstream
-       style="font-size:7.05556px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:start;white-space:pre;inline-size:35.63;display:inline;fill:#5b8c00;fill-opacity:1;stroke:none;stroke-width:0.768427;stroke-linecap:square;stroke-opacity:0.8;stop-color:#000000"
-       x="120.64623"
-       y="127.69223"
-       id="text71757"
-       transform="matrix(0.98215806,0,0,0.98215806,428.50755,225.57335)"><tspan
-         x="120.64623"
-         y="127.69223"
-         id="tspan76100"><tspan
-           style="stroke-width:0.768426"
-           id="tspan76098">First </tspan></tspan><tspan
-         x="120.64623"
-         y="134.7478"
-         id="tspan76104"><tspan
-           style="stroke-width:0.768426"
-           id="tspan76102">500ms</tspan></tspan></text><text
-       xml:space="preserve"
-       style="font-size:5.64444px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:end;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:end;white-space:pre;inline-size:41.6541;display:inline;fill:#e96893;fill-opacity:1;stroke:none;stroke-width:0.768427;stroke-linecap:square;stroke-opacity:0.8;stop-color:#000000"
-       x="237.0735"
-       y="130.97498"
-       id="text71993"
-       transform="matrix(1.1109755,0,0,1.1109755,357.95129,204.75483)"><tspan
-         x="237.0735"
-         y="130.97498"
-         id="tspan76106">Stable transient<tspan
-   y="130.97498"
-   id="tspan76108"> </tspan></tspan><tspan
-         x="237.0735"
-         y="136.61943"
-         id="tspan76110">throughout<tspan
-   y="136.61943"
-   id="tspan76112"> </tspan></tspan><tspan
-         x="237.0735"
-         y="142.26387"
-         id="tspan76114">onset</tspan></text><text
-=======
        style="font-size:5.89613px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Normal';text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;text-anchor:start;white-space:pre;inline-size:27.5624;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.677;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;stop-color:#000000"
        x="40.528038"
        y="181.04457"
@@ -3618,7 +3558,6 @@
          style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.726205"
          x="755.8645"
          y="333.03461">offset</tspan></text><text
->>>>>>> Stashed changes
        fill="#000000"
        fill-opacity="1"
        font-family="Aptos, Aptos_MSFontService, sans-serif"
@@ -3640,15 +3579,9 @@
        xml:space="preserve"><tspan
          x="102.84312"
          y="240.09656"
-<<<<<<< Updated upstream
-         id="tspan76118"><tspan
-           style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';text-align:center;text-anchor:middle"
-           id="tspan76116">Time (ms)</tspan></tspan></text><g
-=======
          id="tspan28"><tspan
            style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';text-align:center;text-anchor:middle"
            id="tspan27">Time (ms)</tspan></tspan></text><g
->>>>>>> Stashed changes
        clip-path="url(#cpMC4wMHw0MzIuMDB8MC4wMHw0MzIuMDA=)"
        id="g95707"
        transform="matrix(0.35277777,0,0,0.35277777,332.37699,2.7613442)" /><g
@@ -3804,7 +3737,7 @@
        id="g139200"
        transform="matrix(0.35277777,0,0,0.35277777,472.28286,119.02163)" /><rect
        x="542.97461"
-       y="338.66251"
+       y="329.24268"
        width="6.1021857"
        height="6.1021857"
        style="fill:#5b8c00;fill-opacity:0.5;stroke:#4c7500;stroke-width:0.468725;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:0.929412"
@@ -3812,7 +3745,7 @@
        clip-path="none" /><g
        clip-path="none"
        id="g112740-4"
-       transform="matrix(0.45131635,0,0,0.52997968,512.09515,333.07549)"><text
+       transform="matrix(0.45131635,0,0,0.52997968,512.09515,323.65565)"><text
          x="121.5"
          y="20.43"
          text-anchor="middle"
@@ -3824,23 +3757,6 @@
          xml:space="preserve"><tspan
            x="121.5"
            y="20.43"
-<<<<<<< Updated upstream
-           id="tspan76122"><tspan
-             style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
-             id="tspan76120">GNWT: 
-</tspan></tspan><tspan
-           x="121.5"
-           y="32.43"
-           id="tspan76130"><tspan
-             style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
-             id="tspan76124">CS </tspan><tspan
-             style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
-             id="tspan76126">↔</tspan><tspan
-             style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
-             id="tspan76128"> PFC</tspan></tspan></text></g><rect
-       x="589.39105"
-       y="403.98074"
-=======
            id="tspan30"><tspan
              style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
              id="tspan29">GNWT: 
@@ -3854,9 +3770,8 @@
              id="tspan32">↔</tspan><tspan
              style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-anchor:start"
              id="tspan33"> PFC</tspan></tspan></text></g><rect
-       x="593.83124"
-       y="339.11862"
->>>>>>> Stashed changes
+       x="596.79193"
+       y="329.91028"
        width="6.1021857"
        height="6.1021857"
        style="fill:#e96893;fill-opacity:0.5;stroke:#e2376e;stroke-width:0.468725;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-opacity:1"
@@ -3868,25 +3783,10 @@
        textLength="65.370003"
        lengthAdjust="spacingAndGlyphs"
        id="text119251-2"
-       transform="matrix(0.60142258,0,0,0.52997968,550.14306,328.16617)"
+       transform="matrix(0.60142258,0,0,0.52997968,553.10377,318.95781)"
        xml:space="preserve"><tspan
          x="121.5"
          y="20.43"
-<<<<<<< Updated upstream
-         id="tspan76134"><tspan
-           style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
-           id="tspan76132">IIT: 
-</tspan></tspan><tspan
-         x="121.5"
-         y="32.43"
-         id="tspan76142"><tspan
-           style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
-           id="tspan76136">CS </tspan><tspan
-           style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
-           id="tspan76138">↔</tspan><tspan
-           style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
-           id="tspan76140"> VIS</tspan></tspan></text><g
-=======
          id="tspan36"><tspan
            style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
            id="tspan35">IIT: 
@@ -3900,7 +3800,6 @@
            id="tspan38">↔</tspan><tspan
            style="font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';baseline-shift:baseline;text-anchor:start"
            id="tspan39"> VIS</tspan></tspan></text><g
->>>>>>> Stashed changes
        clip-path="url(#cpMC4wMHw0MzIuMDB8MC4wMHwyNTIuMDA=-5)"
        id="g9228"
        transform="matrix(0.35277777,0,0,0.35277777,469.08319,-5.8777262)" /><g
@@ -4053,13 +3952,13 @@
        transform="matrix(0.35277777,0,0,0.35277777,479.41582,151.80486)" /><text
        xml:space="preserve"
        style="font-weight:bold;font-size:8.02585px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue Bold';text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;fill:#99a800;stroke:#00bfc4;stroke-width:0.680766;stroke-linecap:square;stop-color:#000000"
-       x="541.87946"
-       y="329.69345"
+       x="556.43738"
+       y="320.27362"
        id="text591153"><tspan
          sodipodi:role="line"
          id="tspan591151"
-         x="541.87946"
-         y="329.69345"
+         x="556.43738"
+         y="320.27362"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.680764">Model predictions</tspan></text><text
        xml:space="preserve"
        style="font-size:10.0704px;line-height:1;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue';text-decoration:none;text-decoration-line:none;text-decoration-color:#000000;fill:#000000;stroke-width:0.652479;stroke-linecap:square;stop-color:#000000"
