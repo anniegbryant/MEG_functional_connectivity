@@ -1,0 +1,46 @@
+# Distance statistics
+.statistics.distance:
+  Barycenter:
+    labels:
+      - undirected
+      - nonlinear
+      - unsigned
+      - bivariate
+      - time-dependent
+    dependencies:
+    configs:
+      # Euclidean
+      - mode: euclidean
+        statistic: max
+        squared: True
+        
+      - mode: euclidean
+        statistic: max_time
+        squared: True
+
+      # Dynamic Time Warping
+      - mode: dtw
+        statistic: max
+        squared: True
+
+      - mode: dtw
+        statistic: max_time
+        squared: True
+
+      # Subgradient descent dynamic time warping
+      - mode: sgddtw
+        statistic: max
+        squared: True
+
+      - mode: sgddtw
+        statistic: max_time
+        squared: True
+
+      # Soft-DTW
+      - mode: softdtw
+        statistic: max
+        squared: True
+
+      - mode: softdtw
+        statistic: max_time
+        squared: True
