@@ -15,15 +15,15 @@ MEG_time_series_dir = f"{deriv_dir}/MEG_time_series"
 visit_id = "1"
 duration = "1000ms"
 
-# # Define barycenter methods
-# barycenter_method_dict = {'euclidean': barycenters.euclidean_barycenter,
-#                           'softdtw': barycenters.softdtw_barycenter,
-#                           'dtw': barycenters.dtw_barycenter_averaging,
-#                           'sgddtw': barycenters.dtw_barycenter_averaging_subgradient}
-
 # Define barycenter methods
 barycenter_method_dict = {'euclidean': barycenters.euclidean_barycenter,
-                          'dtw': barycenters.dtw_barycenter_averaging}
+                          'softdtw': barycenters.softdtw_barycenter,
+                          'dtw': barycenters.dtw_barycenter_averaging,
+                          'sgddtw': barycenters.dtw_barycenter_averaging_subgradient}
+
+# # Define barycenter methods
+# barycenter_method_dict = {'euclidean': barycenters.euclidean_barycenter,
+#                           'dtw': barycenters.dtw_barycenter_averaging}
 
 def barycenter_helper_stats_function(barycenter_onset, barycenter_offset):
     ## STATS FROM ORIGINAL BARYCENTER ##

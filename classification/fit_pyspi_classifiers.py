@@ -106,6 +106,7 @@ all_combos_for_cross_task = list(itertools.product(["relevant_to_irrelevant", "i
                                     meta_roi_comparisons))
 
 # Define cross-validators
+group_stratified_CV = StratifiedGroupKFold(n_splits = 10, shuffle = True, random_state=127)
 LOOCV = LeaveOneOut()
 SKF = StratifiedKFold(n_splits=5, shuffle=True, random_state=127)
 
@@ -301,7 +302,6 @@ if classification_type == "averaged":
                             groups = final_dataset_for_classification_this_combo.subject_ID.to_numpy().reshape(-1, 1)
                             groups_flat = np.array([str(item[0]) for item in groups])
 
-                            group_stratified_CV = StratifiedGroupKFold(n_splits = 10, shuffle = True, random_state=127)
 
                             # Make a deepcopy of the pipeline
                             this_iter_pipe = deepcopy(pipe)
