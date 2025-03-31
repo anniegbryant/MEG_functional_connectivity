@@ -11,6 +11,10 @@
     configs:
       # Euclidean
       - mode: euclidean
+        statistic: mean
+        squared: True
+
+      - mode: euclidean
         statistic: max
         squared: True
         
@@ -19,6 +23,10 @@
         squared: True
 
       # Dynamic Time Warping
+      - mode: dtw
+        statistic: mean
+        squared: True
+
       - mode: dtw
         statistic: max
         squared: True
@@ -29,6 +37,10 @@
 
       # Subgradient descent dynamic time warping
       - mode: sgddtw
+        statistic: mean
+        squared: True
+
+      - mode: sgddtw
         statistic: max
         squared: True
 
@@ -37,6 +49,10 @@
         squared: True
 
       # Soft-DTW
+      - mode: softdtw
+        statistic: mean
+        squared: True
+        
       - mode: softdtw
         statistic: max
         squared: True

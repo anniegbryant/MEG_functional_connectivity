@@ -155,7 +155,7 @@ def process_for_subject(subject_id, visit_id, duration, time_series_path, output
     all_pyspi_res.to_csv(f"{output_feature_path}/sub-{subject_id}_ses-{visit_id}_all_pyspi_{SPI_subset_base}_results_{duration}ms.csv", index=False)
 
 subject_list = np.loadtxt("../metadata/subject_list_Cogitate_MEG_with_all_data.txt", dtype=str)  
-n_jobs=4
+n_jobs=8
 
 Parallel(n_jobs=int(n_jobs))(delayed(process_for_subject)(subject_id=subject_ID, visit_id="1", duration=duration, 
                         time_series_path=time_series_path, 
