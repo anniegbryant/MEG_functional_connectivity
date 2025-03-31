@@ -13,22 +13,12 @@ output_barycenter_dir = 'barycenter_results/'
 SPI_subset = '../barycenter_robustness/barycenter_sq.yaml'
 SPI_subset_euclidean = '../barycenter_robustness/barycenter_sq_euclidean.yaml'
 N_sims = 1000
-measurement_noise = 1
 
 # Get the base name for SPI_subset file
 SPI_subset_base = op.basename(SPI_subset).replace(".yaml", "")
 SPI_subset_euclidean_base = op.basename(SPI_subset_euclidean).replace(".yaml", "")
 
-time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
-time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
-time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
-time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
 
-# Define array name dictionary
-array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
-                     "GNWT_stim_off": time_series_GNWT_stim_off,
-                     "IIT_stim_on": time_series_IIT_stim_on,
-                     "IIT_stim_off": time_series_IIT_stim_off}
 
 # Define ROI lookup tables
 GNWT_region_lookup = {"proc-0": "Category_Selective",
@@ -130,23 +120,46 @@ def process_for_sim_array(input_3d_array, array_name, output_barycenter_dir, SPI
     
 
 n_jobs=4
-for noise_level in [0.5, 0.6, 0.7, 0.8, 0.9, 1]:
+for measurement_noise in [0.5, 0.6, 0.7, 0.8, 0.9, 1]:
+    time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+
+    # Define array name dictionary
+    noise_array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
+                             "GNWT_stim_off": time_series_GNWT_stim_off,
+                             "IIT_stim_on": time_series_IIT_stim_on,
+                             "IIT_stim_off": time_series_IIT_stim_off}
+
     Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_3d_array, 
                                                                 array_name, 
                                                                 output_barycenter_dir, 
                                                                 SPI_subset_euclidean, 
                                                                 SPI_subset_euclidean_base, 
                                                                 region_lookup_dict,
-                                                                noise_level)
-                        for array_name, input_3d_array in array_name_dict.items()
+                                                                measurement_noise)
+                        for array_name, input_3d_array in noise_array_name_dict.items()
                         )
 
-Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_3d_array, 
-                                                            array_name, 
-                                                            output_barycenter_dir, 
-                                                            SPI_subset, 
-                                                            SPI_subset_base, 
-                                                            region_lookup_dict,
-                                                            1)
-                    for array_name, input_3d_array in array_name_dict.items()
-                    )
+# for measurement_noise in [1]:
+#     time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+#     time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+#     time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+#     time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+
+#     # Define array name dictionary
+#     noise_array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
+#                         "GNWT_stim_off": time_series_GNWT_stim_off,
+#                         "IIT_stim_on": time_series_IIT_stim_on,
+#                         "IIT_stim_off": time_series_IIT_stim_off}
+    
+#     Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_3d_array, 
+#                                                                 array_name, 
+#                                                                 output_barycenter_dir, 
+#                                                                 SPI_subset, 
+#                                                                 SPI_subset_base, 
+#                                                                 region_lookup_dict,
+#                                                                 1)
+#                         for array_name, input_3d_array in noise_array_name_dict.items()
+#                         )
