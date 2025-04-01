@@ -1,5 +1,7 @@
 # A data-driven approach to identifying and evaluating connectivity-based neural correlates of consciousness
 
+[![DOI](https://zenodo.org/badge/829555031.svg)](https://doi.org/10.5281/zenodo.15122629)
+
 This repository contains all code needed to reproduce analyses and visuals presented in our preprint, [A data-driven approach to identifying and evaluating connectivity-based neural correlates of consciousness]().
 
 ![Overview of our methodological workflow.](./data_visualization/plots/final_figures/methods_overview.png)
