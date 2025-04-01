@@ -8,17 +8,23 @@ import argparse
 from joblib import Parallel, delayed
 from scipy.signal import detrend
 
-simulated_TS_dir = 'simulated_data/'
-output_barycenter_dir = 'barycenter_results/'
-SPI_subset = '../barycenter_robustness/barycenter_sq.yaml'
+# Define base_repo as one level up from current directory
+base_repo = op.abspath(op.join(op.dirname(__file__), op.pardir))
+
+# Input and output directories
+simulated_TS_dir = f'{base_repo}/data/model/simulated_data/'
+output_barycenter_dir = f'{base_repo}/data/model/barycenter_results/'
+
+# Define the SPI subset files
+SPI_subset = f'{base_repo}/barycenter_robustness/barycenter_sq.yaml'
 SPI_subset_euclidean = '../barycenter_robustness/barycenter_sq_euclidean.yaml'
+
+# We've constructed 1000 simulated for GNWT and IIT in stimulus on and off conditions, respectively
 N_sims = 1000
 
 # Get the base name for SPI_subset file
 SPI_subset_base = op.basename(SPI_subset).replace(".yaml", "")
 SPI_subset_euclidean_base = op.basename(SPI_subset_euclidean).replace(".yaml", "")
-
-
 
 # Define ROI lookup tables
 GNWT_region_lookup = {"proc-0": "Category_Selective",
@@ -118,7 +124,7 @@ def process_for_sim_array(input_3d_array, array_name, output_barycenter_dir, SPI
     all_sim_pyspi_results_df = pd.concat(all_sim_pyspi_results)
     all_sim_pyspi_results_df.to_csv(f"{output_barycenter_dir}/{array_name}_sims_all_pyspi_{SPI_subset_base}_results_noise_{measurement_noise}.csv", index=False)
     
-
+# Use 4 jobs with parallel processing
 n_jobs=4
 for measurement_noise in [0.5, 0.6, 0.7, 0.8, 0.9, 1]:
     time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
@@ -142,24 +148,25 @@ for measurement_noise in [0.5, 0.6, 0.7, 0.8, 0.9, 1]:
                         for array_name, input_3d_array in noise_array_name_dict.items()
                         )
 
-# for measurement_noise in [1]:
-#     time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
-#     time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
-#     time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
-#     time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+# We also want to compute non-Euclidean geometries as a robustness check, using only noise level of 1 SD
+for measurement_noise in [1]:
+    time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}.npy')
+    time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}.npy')
 
-#     # Define array name dictionary
-#     noise_array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
-#                         "GNWT_stim_off": time_series_GNWT_stim_off,
-#                         "IIT_stim_on": time_series_IIT_stim_on,
-#                         "IIT_stim_off": time_series_IIT_stim_off}
+    # Define array name dictionary
+    noise_array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
+                        "GNWT_stim_off": time_series_GNWT_stim_off,
+                        "IIT_stim_on": time_series_IIT_stim_on,
+                        "IIT_stim_off": time_series_IIT_stim_off}
     
-#     Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_3d_array, 
-#                                                                 array_name, 
-#                                                                 output_barycenter_dir, 
-#                                                                 SPI_subset, 
-#                                                                 SPI_subset_base, 
-#                                                                 region_lookup_dict,
-#                                                                 1)
-#                         for array_name, input_3d_array in noise_array_name_dict.items()
-#                         )
+    Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_3d_array, 
+                                                                array_name, 
+                                                                output_barycenter_dir, 
+                                                                SPI_subset, 
+                                                                SPI_subset_base, 
+                                                                region_lookup_dict,
+                                                                measurement_noise)
+                        for array_name, input_3d_array in noise_array_name_dict.items()
+                        )

@@ -1,49 +1,23 @@
 #!/usr/bin/env bash
 
-# Define the batch job array command
-input_model_file=/project/MEG/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
-# input_model_file=/headnode1/abry4213/github/MEG_functional_connectivity/subject_list_Cogitate_MEG_pyspi.txt
+# The overall repo is the base repo
+MEG_base_repo=$(dirname $(dirname $(pwd)))
 
-github_repo=/project/hctsa/annie/github/MEG_functional_connectivity
-# github_repo=/headnode1/abry4213/github/MEG_functional_connectivity
+# Update to where your bids_root directory is
+bids_root=/path/to/bids_root
 
-bids_root=/project/MEG/data/Cogitate_MEG/
-# bids_root=/headnode1/abry4213/data/Cogitate_MEG/
+# Use logistic regression as the default classifier
+classifier=Logistic_Regression
 
-# ###################### Averaged epoch classification, catch24 ##################
-# n_jobs=10
-# for classifier in Linear_SVM Logistic_Regression; do
-#    cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_group_averaged_catch24_${classifier}_classification.out \
-#       -N ${classifier}_MEG_averaged_classification \
-#       -l select=1:ncpus=$n_jobs:mem=20GB:mpiprocs=$n_jobs \
-#       -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier \
-#       run_averaged_catch24_classifiers.pbs"
-#    $cmd
-# done
+# n_jobs is set to 1 by default, you can increase this number to speed up the classification
+n_jobs=1
 
-###################### Averaged epoch classification, pyspi ##################
-n_jobs=29
-# for classifier in Linear_SVM Logistic_Regression; do
-for classifier in Logistic_Regression; do
-   cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_group_averaged_pyspi_${classifier}_classification.out \
-      -N ${classifier}_MEG_averaged_classification \
-      -l select=1:ncpus=$n_jobs:mem=60GB:mpiprocs=$n_jobs \
-      -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier \
-      run_averaged_pyspi_classifiers.pbs"
-   $cmd
-done
+# Uncomment the following line to use linear SVM instead
+# classifier=Linear_SVM
 
-########## Indivivdual epoch classification, pyspi, with subsampling #########
-# n_jobs=10
-# # for classification_type in individual individual_subsampled; do
-# for classification_type in individual_subsampled; do
-#    for classifier in Linear_SVM Logistic_Regression; do
-#       cmd="qsub -o $github_repo/cluster_output/Cogitate_MEG_individual_epoch_${classifier}_subsampled_classification_^array_index^.out \
-#          -N ${classifier}_MEG_individual_classification \
-#          -J 1-94 \
-#          -l select=1:ncpus=$n_jobs:mem=20GB:mpiprocs=$n_jobs \
-#          -v bids_root=$bids_root,github_repo=$github_repo,input_model_file=$input_model_file,n_jobs=$n_jobs,classifier=$classifier,classification_type=$classification_type \
-#          run_individual_pyspi_classifiers.pbs"
-#       $cmd
-#    done
-# done
+################################## Call classifiers ###################################
+
+python3 $MEG_base_repo/classification/fit_pyspi_classifiers.py --bids_root $bids_root --n_jobs $n_jobs \
+    --SPI_directionality_file $MEG_base_repo/feature_extraction/pyspi_SPI_info.csv \
+    --classification_type averaged \
+    --classifier $classifier

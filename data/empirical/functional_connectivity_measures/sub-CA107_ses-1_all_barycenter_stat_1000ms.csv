@@ -1,0 +1,257 @@
+Presentation,Barycenter_Type,Mean,Max,Max_Time,Subject,Region,Relevance,Stimulus,Barycenter_Method
+Onset,Original,4.667151336286372e-16,1.8313841497562802,464,sub-CA107,CS_PFC,Irrelevant,False,euclidean
+Offset,Original,-1.8474111129762604e-16,2.093441403072211,482,sub-CA107,CS_PFC,Irrelevant,False,euclidean
+Onset,Squared,0.4007087994286676,5.327305718334901,157,sub-CA107,CS_PFC,Irrelevant,False,euclidean
+Offset,Squared,0.512828941126129,5.07194330617205,188,sub-CA107,CS_PFC,Irrelevant,False,euclidean
+Onset,Original,2.0585154182860046e-16,2.7654897284531827,157,sub-CA107,CS_PFC_abs,Irrelevant,False,euclidean
+Offset,Original,3.375077994860476e-17,2.8235095130403964,188,sub-CA107,CS_PFC_abs,Irrelevant,False,euclidean
+Onset,Squared,0.5644272915746715,7.6479334381800586,157,sub-CA107,CS_PFC_abs,Irrelevant,False,euclidean
+Offset,Squared,0.4951742470714121,7.972205970229616,188,sub-CA107,CS_PFC_abs,Irrelevant,False,euclidean
+Onset,Original,-5.678663222857944e-17,1.3446941832289787,432,sub-CA107,CS_VIS,Irrelevant,False,euclidean
+Offset,Original,8.526512829121202e-17,1.5462265729967626,618,sub-CA107,CS_VIS,Irrelevant,False,euclidean
+Onset,Squared,0.19658623790894775,1.8082024464098503,432,sub-CA107,CS_VIS,Irrelevant,False,euclidean
+Offset,Squared,0.26613766057629024,2.3908166150413126,618,sub-CA107,CS_VIS,Irrelevant,False,euclidean
+Onset,Original,-3.407197933714766e-16,4.1310094392626,164,sub-CA107,CS_VIS_abs,Irrelevant,False,euclidean
+Offset,Original,1.1990408665951691e-16,2.73109992822559,103,sub-CA107,CS_VIS_abs,Irrelevant,False,euclidean
+Onset,Squared,0.7220951308256179,17.065238987276704,164,sub-CA107,CS_VIS_abs,Irrelevant,False,euclidean
+Offset,Squared,0.5703831590747832,7.458906817953824,103,sub-CA107,CS_VIS_abs,Irrelevant,False,euclidean
+Onset,Original,-0.009798966963548464,2.453138817713878,760,sub-CA107,CS_PFC,Irrelevant,False,dtw
+Offset,Original,-0.007919600300498679,2.339371213247601,555,sub-CA107,CS_PFC,Irrelevant,False,dtw
+Onset,Squared,0.4695130070227585,6.017890058974643,760,sub-CA107,CS_PFC,Irrelevant,False,dtw
+Offset,Squared,0.5800558352333667,6.938424099176018,842,sub-CA107,CS_PFC,Irrelevant,False,dtw
+Onset,Original,-0.0007011746083798378,3.509921626785398,760,sub-CA107,CS_PFC_abs,Irrelevant,False,dtw
+Offset,Original,0.03838196867876057,3.0548804581003135,842,sub-CA107,CS_PFC_abs,Irrelevant,False,dtw
+Onset,Squared,0.6693303439776105,12.319549826175855,760,sub-CA107,CS_PFC_abs,Irrelevant,False,dtw
+Offset,Squared,0.6535415365319563,9.332294613283182,842,sub-CA107,CS_PFC_abs,Irrelevant,False,dtw
+Onset,Original,0.014555768287524817,2.5210205030108743,151,sub-CA107,CS_VIS,Irrelevant,False,dtw
+Offset,Original,-0.014276290844073095,2.5202773863706946,618,sub-CA107,CS_VIS,Irrelevant,False,dtw
+Onset,Squared,0.28366957964358613,6.355544376601202,151,sub-CA107,CS_VIS,Irrelevant,False,dtw
+Offset,Squared,0.35120161586920945,6.3517981042514995,618,sub-CA107,CS_VIS,Irrelevant,False,dtw
+Onset,Original,0.008124273964069447,4.1310094392626,164,sub-CA107,CS_VIS_abs,Irrelevant,False,dtw
+Offset,Original,0.03337859344212752,3.1174560665968216,740,sub-CA107,CS_VIS_abs,Irrelevant,False,dtw
+Onset,Squared,0.792067564196415,17.065238987276704,164,sub-CA107,CS_VIS_abs,Irrelevant,False,dtw
+Offset,Squared,0.6367767639289351,9.718532327161327,740,sub-CA107,CS_VIS_abs,Irrelevant,False,dtw
+Onset,Original,-1.916548837714556e-16,2.4550387913362215,870,sub-CA107,CS_PFC,Relevant non-target,False,euclidean
+Offset,Original,-1.8474111129762604e-16,2.0605219210872794,190,sub-CA107,CS_PFC,Relevant non-target,False,euclidean
+Onset,Squared,0.545635644485031,6.0272154669656155,870,sub-CA107,CS_PFC,Relevant non-target,False,euclidean
+Offset,Squared,0.43395756003169356,4.910810080818871,101,sub-CA107,CS_PFC,Relevant non-target,False,euclidean
+Onset,Original,2.3069569342860397e-17,2.7777353439825467,166,sub-CA107,CS_PFC_abs,Relevant non-target,False,euclidean
+Offset,Original,1.3322676295501878e-16,2.7656392895929476,101,sub-CA107,CS_PFC_abs,Relevant non-target,False,euclidean
+Onset,Squared,0.48700169067307836,7.715813641209837,166,sub-CA107,CS_PFC_abs,Relevant non-target,False,euclidean
+Offset,Squared,0.5005000096983971,7.6487606801401835,101,sub-CA107,CS_PFC_abs,Relevant non-target,False,euclidean
+Onset,Original,-2.342448579428902e-16,1.426918277402211,162,sub-CA107,CS_VIS,Relevant non-target,False,euclidean
+Offset,Original,-1.7763568394002505e-17,1.7814970957689478,992,sub-CA107,CS_VIS,Relevant non-target,False,euclidean
+Onset,Squared,0.20935103397824809,2.0635320515675013,80,sub-CA107,CS_VIS,Relevant non-target,False,euclidean
+Offset,Squared,0.25139643633028974,3.1737319022331953,992,sub-CA107,CS_VIS,Relevant non-target,False,euclidean
+Onset,Original,-1.455157450857348e-16,3.538311605140069,152,sub-CA107,CS_VIS_abs,Relevant non-target,False,euclidean
+Offset,Original,2.2026824808563106e-16,2.7922713943426833,21,sub-CA107,CS_VIS_abs,Relevant non-target,False,euclidean
+Onset,Squared,0.7053471500817708,12.519649015068891,152,sub-CA107,CS_VIS_abs,Relevant non-target,False,euclidean
+Offset,Squared,0.5145406615038717,7.796779539664433,21,sub-CA107,CS_VIS_abs,Relevant non-target,False,euclidean
+Onset,Original,-0.00297971791320317,2.5364634236551513,870,sub-CA107,CS_PFC,Relevant non-target,False,dtw
+Offset,Original,0.007626890354936254,2.6058661324173245,190,sub-CA107,CS_PFC,Relevant non-target,False,dtw
+Onset,Squared,0.6341440856561634,9.220082822670078,166,sub-CA107,CS_PFC,Relevant non-target,False,dtw
+Offset,Squared,0.503670249574894,7.1052298378239485,101,sub-CA107,CS_PFC,Relevant non-target,False,dtw
+Onset,Original,0.024285747978942323,4.054418309215704,166,sub-CA107,CS_PFC_abs,Relevant non-target,False,dtw
+Offset,Original,0.017600354924244017,2.959595410075311,453,sub-CA107,CS_PFC_abs,Relevant non-target,False,dtw
+Onset,Squared,0.635159039935829,16.438307826103525,166,sub-CA107,CS_PFC_abs,Relevant non-target,False,dtw
+Offset,Squared,0.6643831123797496,8.759204991338848,453,sub-CA107,CS_PFC_abs,Relevant non-target,False,dtw
+Onset,Original,0.01662324359539514,3.2773348283581285,162,sub-CA107,CS_VIS,Relevant non-target,False,dtw
+Offset,Original,-0.011243931872697854,2.4105780003857324,166,sub-CA107,CS_VIS,Relevant non-target,False,dtw
+Onset,Squared,0.2926431545250083,10.740923577169204,162,sub-CA107,CS_VIS,Relevant non-target,False,dtw
+Offset,Squared,0.3108461747496575,5.810886295943677,166,sub-CA107,CS_VIS,Relevant non-target,False,dtw
+Onset,Original,-0.0006438707769086632,3.8678623026810235,159,sub-CA107,CS_VIS_abs,Relevant non-target,False,dtw
+Offset,Original,0.018047676205846443,3.089656544606695,120,sub-CA107,CS_VIS_abs,Relevant non-target,False,dtw
+Onset,Squared,0.755949868905926,14.96035879250095,159,sub-CA107,CS_VIS_abs,Relevant non-target,False,dtw
+Offset,Squared,0.6078145847844921,9.545977563630982,120,sub-CA107,CS_VIS_abs,Relevant non-target,False,dtw
+Onset,Original,5.60767993257222e-16,2.132545190190479,991,sub-CA107,CS_PFC,Irrelevant,face,euclidean
+Offset,Original,-5.1514348342607266e-17,2.3391870116912363,0,sub-CA107,CS_PFC,Irrelevant,face,euclidean
+Onset,Squared,0.6099760316450011,9.525485871017535,142,sub-CA107,CS_PFC,Irrelevant,face,euclidean
+Offset,Squared,0.5222679364922361,6.06047685506986,990,sub-CA107,CS_PFC,Irrelevant,face,euclidean
+Onset,Original,6.388496125715187e-17,3.297900474086273,142,sub-CA107,CS_PFC_abs,Irrelevant,face,euclidean
+Offset,Original,8.171241461241152e-17,2.9118367723149285,77,sub-CA107,CS_PFC_abs,Irrelevant,face,euclidean
+Onset,Squared,0.6037315699892906,10.876147536978465,142,sub-CA107,CS_PFC_abs,Irrelevant,face,euclidean
+Offset,Squared,0.4938686512973244,8.478793388605421,77,sub-CA107,CS_PFC_abs,Irrelevant,face,euclidean
+Onset,Original,1.3131908702858994e-16,1.8194696364741136,135,sub-CA107,CS_VIS,Irrelevant,face,euclidean
+Offset,Original,8.526512829121202e-17,1.5931028351990162,545,sub-CA107,CS_VIS,Irrelevant,face,euclidean
+Onset,Squared,0.1801419185656868,3.3104697580512434,135,sub-CA107,CS_VIS,Irrelevant,face,euclidean
+Offset,Squared,0.3114819892841683,3.3732214735991772,983,sub-CA107,CS_VIS,Irrelevant,face,euclidean
+Onset,Original,-2.945806546857558e-16,5.152116554494382,144,sub-CA107,CS_VIS_abs,Irrelevant,face,euclidean
+Offset,Original,1.8474111129762604e-16,3.263588612965867,164,sub-CA107,CS_VIS_abs,Irrelevant,face,euclidean
+Onset,Squared,0.6866709531716001,26.544304991095064,144,sub-CA107,CS_VIS_abs,Irrelevant,face,euclidean
+Offset,Squared,0.5435272787242951,10.651010634680471,164,sub-CA107,CS_VIS_abs,Irrelevant,face,euclidean
+Onset,Original,-0.00811992153300188,2.132545190190479,991,sub-CA107,CS_PFC,Irrelevant,face,dtw
+Offset,Original,-0.010078620478833839,2.823932477981628,0,sub-CA107,CS_PFC,Irrelevant,face,dtw
+Onset,Squared,0.6871650321654906,12.995743171981735,142,sub-CA107,CS_PFC,Irrelevant,face,dtw
+Offset,Squared,0.6088169805027587,7.9745946401994585,0,sub-CA107,CS_PFC,Irrelevant,face,dtw
+Onset,Original,0.01683240662621952,3.808056366089832,142,sub-CA107,CS_PFC_abs,Irrelevant,face,dtw
+Offset,Original,0.0261884540509963,4.020041531019384,77,sub-CA107,CS_PFC_abs,Irrelevant,face,dtw
+Onset,Squared,0.7073579515253369,14.501293287317296,142,sub-CA107,CS_PFC_abs,Irrelevant,face,dtw
+Offset,Squared,0.6259589072382846,16.160733911120673,77,sub-CA107,CS_PFC_abs,Irrelevant,face,dtw
+Onset,Original,-0.006562494564253139,3.4854616540526955,135,sub-CA107,CS_VIS,Irrelevant,face,dtw
+Offset,Original,-0.017351342996400305,2.1473351672462435,592,sub-CA107,CS_VIS,Irrelevant,face,dtw
+Onset,Squared,0.2549996810835386,12.148442941871751,135,sub-CA107,CS_VIS,Irrelevant,face,dtw
+Offset,Squared,0.3732953045218304,4.611048320492452,592,sub-CA107,CS_VIS,Irrelevant,face,dtw
+Onset,Original,0.002113820295760566,5.230583186565079,144,sub-CA107,CS_VIS_abs,Irrelevant,face,dtw
+Offset,Original,-0.003138437213098811,3.097679235588707,164,sub-CA107,CS_VIS_abs,Irrelevant,face,dtw
+Onset,Squared,0.7679736186852195,27.359000471577296,144,sub-CA107,CS_VIS_abs,Irrelevant,face,dtw
+Offset,Squared,0.5895176025161611,9.595616646597437,164,sub-CA107,CS_VIS_abs,Irrelevant,face,dtw
+Onset,Original,-1.8810571925716937e-16,2.3465235567395597,257,sub-CA107,CS_PFC,Relevant non-target,face,euclidean
+Offset,Original,-2.6645352591003756e-16,2.340740800225486,61,sub-CA107,CS_PFC,Relevant non-target,face,euclidean
+Onset,Squared,0.609523143521527,6.108665957817428,148,sub-CA107,CS_PFC,Relevant non-target,face,euclidean
+Offset,Squared,0.3959576300106715,5.479067493840249,61,sub-CA107,CS_PFC,Relevant non-target,face,euclidean
+Onset,Original,-2.3069569342860393e-16,2.681371859687722,148,sub-CA107,CS_PFC_abs,Relevant non-target,face,euclidean
+Offset,Original,1.2434497875801754e-16,2.6312139493537976,261,sub-CA107,CS_PFC_abs,Relevant non-target,face,euclidean
+Onset,Squared,0.4976913963898679,7.189755049925192,148,sub-CA107,CS_PFC_abs,Relevant non-target,face,euclidean
+Offset,Squared,0.4791837260200766,6.923286847274009,261,sub-CA107,CS_PFC_abs,Relevant non-target,face,euclidean
+Onset,Original,2.3601944020003327e-16,1.3347829662321038,7,sub-CA107,CS_VIS,Relevant non-target,face,euclidean
+Offset,Original,-1.509903313490213e-17,1.409458299544387,447,sub-CA107,CS_VIS,Relevant non-target,face,euclidean
+Onset,Squared,0.15942163523571487,2.60738522895818,117,sub-CA107,CS_VIS,Relevant non-target,face,euclidean
+Offset,Squared,0.20113832786353472,2.6214235713920497,277,sub-CA107,CS_VIS,Relevant non-target,face,euclidean
+Onset,Original,-2.9812981920004205e-16,3.1453300561680813,707,sub-CA107,CS_VIS_abs,Relevant non-target,face,euclidean
+Offset,Original,2.380318164796336e-16,3.8352635571909133,116,sub-CA107,CS_VIS_abs,Relevant non-target,face,euclidean
+Onset,Squared,0.701483817410886,9.893101162234306,707,sub-CA107,CS_VIS_abs,Relevant non-target,face,euclidean
+Offset,Squared,0.6294039357596778,14.709246553116698,116,sub-CA107,CS_VIS_abs,Relevant non-target,face,euclidean
+Onset,Original,-0.0030735251694890076,2.6940617385342613,229,sub-CA107,CS_PFC,Relevant non-target,face,dtw
+Offset,Original,-0.012142475510310544,2.340740800225486,61,sub-CA107,CS_PFC,Relevant non-target,face,dtw
+Onset,Squared,0.669133903366306,7.257968651034247,229,sub-CA107,CS_PFC,Relevant non-target,face,dtw
+Offset,Squared,0.4600655815697796,5.479067493840249,61,sub-CA107,CS_PFC,Relevant non-target,face,dtw
+Onset,Original,0.021613253454301103,3.0281754763355977,149,sub-CA107,CS_PFC_abs,Relevant non-target,face,dtw
+Offset,Original,0.006965382655662818,2.683093554887564,743,sub-CA107,CS_PFC_abs,Relevant non-target,face,dtw
+Onset,Squared,0.5890303594137352,9.169846715480324,149,sub-CA107,CS_PFC_abs,Relevant non-target,face,dtw
+Offset,Squared,0.6211875998238402,7.198991024279184,743,sub-CA107,CS_PFC_abs,Relevant non-target,face,dtw
+Onset,Original,-0.0006451885870758048,2.5702043685602276,170,sub-CA107,CS_VIS,Relevant non-target,face,dtw
+Offset,Original,-0.0021114832700069534,2.239360908202923,114,sub-CA107,CS_VIS,Relevant non-target,face,dtw
+Onset,Squared,0.21416986873435181,6.605950496166078,170,sub-CA107,CS_VIS,Relevant non-target,face,dtw
+Offset,Squared,0.2688430348796725,5.014737277187421,114,sub-CA107,CS_VIS,Relevant non-target,face,dtw
+Onset,Original,0.015553533812005556,3.1453300561680813,707,sub-CA107,CS_VIS_abs,Relevant non-target,face,dtw
+Offset,Original,0.012145554834986189,4.151823662114715,116,sub-CA107,CS_VIS_abs,Relevant non-target,face,dtw
+Onset,Squared,0.7424281590257484,9.893101162234306,707,sub-CA107,CS_VIS_abs,Relevant non-target,face,dtw
+Offset,Squared,0.7117401661714429,17.237639721295647,116,sub-CA107,CS_VIS_abs,Relevant non-target,face,dtw
+Onset,Original,-4.2589974171434577e-17,2.196217214862122,402,sub-CA107,CS_PFC,Irrelevant,letter,euclidean
+Offset,Original,-1.2079226507921704e-16,2.0788167044585575,861,sub-CA107,CS_PFC,Irrelevant,letter,euclidean
+Onset,Squared,0.5126236766743211,5.405870877024056,157,sub-CA107,CS_PFC,Irrelevant,letter,euclidean
+Offset,Squared,0.5496877029269235,5.931496286667016,589,sub-CA107,CS_PFC,Irrelevant,letter,euclidean
+Onset,Original,-2.413431869714626e-16,2.5127456627065814,141,sub-CA107,CS_PFC_abs,Irrelevant,letter,euclidean
+Offset,Original,-3.1974423109204506e-17,2.6035998961183626,589,sub-CA107,CS_PFC_abs,Irrelevant,letter,euclidean
+Onset,Squared,0.4609876379228119,6.313890765450737,141,sub-CA107,CS_PFC_abs,Irrelevant,letter,euclidean
+Offset,Squared,0.5029232891535076,6.778732419067548,589,sub-CA107,CS_PFC_abs,Irrelevant,letter,euclidean
+Onset,Original,1.5971240314287968e-17,1.6708916437734325,177,sub-CA107,CS_VIS,Irrelevant,letter,euclidean
+Offset,Original,-3.552713678800501e-17,1.555958254966918,167,sub-CA107,CS_VIS,Irrelevant,letter,euclidean
+Onset,Squared,0.21956699714078023,2.791878885231883,177,sub-CA107,CS_VIS,Irrelevant,letter,euclidean
+Offset,Squared,0.22092431327007092,2.4210060911996965,167,sub-CA107,CS_VIS,Irrelevant,letter,euclidean
+Onset,Original,-3.620147804571939e-16,4.267085155251401,142,sub-CA107,CS_VIS_abs,Irrelevant,letter,euclidean
+Offset,Original,1.4921397450962105e-16,3.5606388040899626,162,sub-CA107,CS_VIS_abs,Irrelevant,letter,euclidean
+Onset,Squared,0.6158544154470174,18.208015722166873,142,sub-CA107,CS_VIS_abs,Irrelevant,letter,euclidean
+Offset,Squared,0.6135440259813879,12.678148693191199,162,sub-CA107,CS_VIS_abs,Irrelevant,letter,euclidean
+Onset,Original,-0.004080107620211479,2.243196234562247,402,sub-CA107,CS_PFC,Irrelevant,letter,dtw
+Offset,Original,0.00612977404793476,2.4331052494524426,861,sub-CA107,CS_PFC,Irrelevant,letter,dtw
+Onset,Squared,0.5765666221323454,9.101613668771444,157,sub-CA107,CS_PFC,Irrelevant,letter,dtw
+Offset,Squared,0.6001927033231639,5.931496286667016,589,sub-CA107,CS_PFC,Irrelevant,letter,dtw
+Onset,Original,0.018535268699877046,3.6393258317198383,141,sub-CA107,CS_PFC_abs,Irrelevant,letter,dtw
+Offset,Original,0.01955987541863999,3.1846136997624486,302,sub-CA107,CS_PFC_abs,Irrelevant,letter,dtw
+Onset,Squared,0.5820181281773518,13.244692509423292,141,sub-CA107,CS_PFC_abs,Irrelevant,letter,dtw
+Offset,Squared,0.6390584355368581,10.14176441671467,302,sub-CA107,CS_PFC_abs,Irrelevant,letter,dtw
+Onset,Original,0.0071023160991481316,3.119184956859573,177,sub-CA107,CS_VIS,Irrelevant,letter,dtw
+Offset,Original,-0.006525533149658607,2.396258498257076,167,sub-CA107,CS_VIS,Irrelevant,letter,dtw
+Onset,Squared,0.2976041019348311,9.729314795099057,177,sub-CA107,CS_VIS,Irrelevant,letter,dtw
+Offset,Squared,0.2949850562690897,5.742054790469258,167,sub-CA107,CS_VIS,Irrelevant,letter,dtw
+Onset,Original,-0.0071091297132200955,4.578629348852666,142,sub-CA107,CS_VIS_abs,Irrelevant,letter,dtw
+Offset,Original,0.0050653562655748946,3.79240267711602,162,sub-CA107,CS_VIS_abs,Irrelevant,letter,dtw
+Onset,Squared,0.6344433425018958,20.96384671417499,142,sub-CA107,CS_VIS_abs,Irrelevant,letter,dtw
+Offset,Squared,0.6498658585988324,14.382318065396756,162,sub-CA107,CS_VIS_abs,Irrelevant,letter,dtw
+Onset,Original,0.0,1.8260194955395876,88,sub-CA107,CS_PFC,Relevant non-target,letter,euclidean
+Offset,Original,-2.842170943040401e-16,2.5860903473211296,543,sub-CA107,CS_PFC,Relevant non-target,letter,euclidean
+Onset,Squared,0.5659226941047582,7.147513459882283,150,sub-CA107,CS_PFC,Relevant non-target,letter,euclidean
+Offset,Squared,0.5526078483909991,6.687863284507521,543,sub-CA107,CS_PFC,Relevant non-target,letter,euclidean
+Onset,Original,2.4844151600003505e-16,2.647765982194872,165,sub-CA107,CS_PFC_abs,Relevant non-target,letter,euclidean
+Offset,Original,1.900701818158268e-16,2.5501255849660547,543,sub-CA107,CS_PFC_abs,Relevant non-target,letter,euclidean
+Onset,Squared,0.5075355900961215,7.010664696468374,165,sub-CA107,CS_PFC_abs,Relevant non-target,letter,euclidean
+Offset,Squared,0.4808848781996414,6.503140499098462,543,sub-CA107,CS_PFC_abs,Relevant non-target,letter,euclidean
+Onset,Original,-1.7745822571431074e-16,1.5435516976839285,144,sub-CA107,CS_VIS,Relevant non-target,letter,euclidean
+Offset,Original,-7.105427357601002e-17,1.4611545888482467,526,sub-CA107,CS_VIS,Relevant non-target,letter,euclidean
+Onset,Squared,0.20145815361451985,2.382551843422938,144,sub-CA107,CS_VIS,Relevant non-target,letter,euclidean
+Offset,Squared,0.2881200230345003,2.371403756454228,897,sub-CA107,CS_VIS,Relevant non-target,letter,euclidean
+Onset,Original,-2.2714652891431774e-16,4.619776940370685,150,sub-CA107,CS_VIS_abs,Relevant non-target,letter,euclidean
+Offset,Original,2.6290081223123706e-16,2.7179710472926324,157,sub-CA107,CS_VIS_abs,Relevant non-target,letter,euclidean
+Onset,Squared,0.7027232933516274,21.34233897878073,150,sub-CA107,CS_VIS_abs,Relevant non-target,letter,euclidean
+Offset,Squared,0.5271267744928072,7.387366613921009,157,sub-CA107,CS_VIS_abs,Relevant non-target,letter,euclidean
+Onset,Original,-0.011610343518990275,2.0314368195920194,40,sub-CA107,CS_PFC,Relevant non-target,letter,dtw
+Offset,Original,-0.006901084342074085,2.782685599663451,544,sub-CA107,CS_PFC,Relevant non-target,letter,dtw
+Onset,Squared,0.6143762755608619,11.824353520287303,150,sub-CA107,CS_PFC,Relevant non-target,letter,dtw
+Offset,Squared,0.6487530386045242,7.743339146574341,544,sub-CA107,CS_PFC,Relevant non-target,letter,dtw
+Onset,Original,0.003143075248209305,3.9812408465492886,156,sub-CA107,CS_PFC_abs,Relevant non-target,letter,dtw
+Offset,Original,0.024219399358353065,3.2012460179011146,855,sub-CA107,CS_PFC_abs,Relevant non-target,letter,dtw
+Onset,Squared,0.6233097459129069,15.850278678232495,156,sub-CA107,CS_PFC_abs,Relevant non-target,letter,dtw
+Offset,Squared,0.6185184101992788,10.247976067127743,855,sub-CA107,CS_PFC_abs,Relevant non-target,letter,dtw
+Onset,Original,0.017179628895672573,3.332735800926556,144,sub-CA107,CS_VIS,Relevant non-target,letter,dtw
+Offset,Original,0.014365420287996698,1.9364544839581699,685,sub-CA107,CS_VIS,Relevant non-target,letter,dtw
+Onset,Squared,0.28759390401607104,11.107127918777573,144,sub-CA107,CS_VIS,Relevant non-target,letter,dtw
+Offset,Squared,0.34060007981789087,5.940374307740541,897,sub-CA107,CS_VIS,Relevant non-target,letter,dtw
+Onset,Original,0.011801110606864245,4.771727450083266,150,sub-CA107,CS_VIS_abs,Relevant non-target,letter,dtw
+Offset,Original,0.01220643665254108,3.818412694491501,157,sub-CA107,CS_VIS_abs,Relevant non-target,letter,dtw
+Onset,Squared,0.727308743562091,22.76938285787815,150,sub-CA107,CS_VIS_abs,Relevant non-target,letter,dtw
+Offset,Squared,0.5998615874930635,14.580275505453846,157,sub-CA107,CS_VIS_abs,Relevant non-target,letter,dtw
+Onset,Original,4.4364556428577685e-17,1.9961169190692138,956,sub-CA107,CS_PFC,Irrelevant,object,euclidean
+Offset,Original,1.8474111129762604e-16,1.9508102743219427,653,sub-CA107,CS_PFC,Irrelevant,object,euclidean
+Onset,Squared,0.4516864099590985,4.798871204006714,817,sub-CA107,CS_PFC,Irrelevant,object,euclidean
+Offset,Squared,0.5160089166084277,5.234538141012112,746,sub-CA107,CS_PFC,Irrelevant,object,euclidean
+Onset,Original,2.2714652891431774e-16,2.333923622986036,736,sub-CA107,CS_PFC_abs,Irrelevant,object,euclidean
+Offset,Original,-2.1316282072803006e-17,2.5092797715095085,746,sub-CA107,CS_PFC_abs,Irrelevant,object,euclidean
+Onset,Squared,0.5348926875465865,5.447199477932265,736,sub-CA107,CS_PFC_abs,Irrelevant,object,euclidean
+Offset,Squared,0.4825914498403796,6.296484971706811,746,sub-CA107,CS_PFC_abs,Irrelevant,object,euclidean
+Onset,Original,2.395686047143195e-16,1.7042692565872382,950,sub-CA107,CS_VIS,Irrelevant,object,euclidean
+Offset,Original,1.7053025658242405e-16,1.5438869391798122,487,sub-CA107,CS_VIS,Irrelevant,object,euclidean
+Onset,Squared,0.3067071642533841,3.0602127128483647,81,sub-CA107,CS_VIS,Irrelevant,object,euclidean
+Offset,Squared,0.28298796325451153,2.619134578101445,191,sub-CA107,CS_VIS,Irrelevant,object,euclidean
+Onset,Original,1.6326156765716587e-16,2.7041777717503006,87,sub-CA107,CS_VIS_abs,Irrelevant,object,euclidean
+Offset,Original,-1.8829382497642654e-16,2.442393983434859,805,sub-CA107,CS_VIS_abs,Irrelevant,object,euclidean
+Onset,Squared,0.5134315511093793,7.312577421228421,87,sub-CA107,CS_VIS_abs,Irrelevant,object,euclidean
+Offset,Squared,0.5447584492114652,5.965288370318798,805,sub-CA107,CS_VIS_abs,Irrelevant,object,euclidean
+Onset,Original,-0.0013583464724145975,3.001910898140306,956,sub-CA107,CS_PFC,Irrelevant,object,dtw
+Offset,Original,0.01031888000813122,2.3713477466844335,653,sub-CA107,CS_PFC,Irrelevant,object,dtw
+Onset,Squared,0.5073491598601869,9.01146904037354,956,sub-CA107,CS_PFC,Irrelevant,object,dtw
+Offset,Squared,0.5699818514197605,6.721089701067765,509,sub-CA107,CS_PFC,Irrelevant,object,dtw
+Onset,Original,0.03335720275649786,2.777490973171298,471,sub-CA107,CS_PFC_abs,Irrelevant,object,dtw
+Offset,Original,0.02537725074159422,2.7969374859696794,746,sub-CA107,CS_PFC_abs,Irrelevant,object,dtw
+Onset,Squared,0.6346487840216669,7.714456106048044,471,sub-CA107,CS_PFC_abs,Irrelevant,object,dtw
+Offset,Squared,0.6020532196876057,7.82285930042239,746,sub-CA107,CS_PFC_abs,Irrelevant,object,dtw
+Onset,Original,-0.00916400128122127,2.855804878126909,950,sub-CA107,CS_VIS,Irrelevant,object,dtw
+Offset,Original,0.006056878389936848,2.164036387363656,616,sub-CA107,CS_VIS,Irrelevant,object,dtw
+Onset,Squared,0.38357134490677647,8.15562150193345,950,sub-CA107,CS_VIS,Irrelevant,object,dtw
+Offset,Squared,0.35388511607117784,4.757636485547055,759,sub-CA107,CS_VIS,Irrelevant,object,dtw
+Onset,Original,0.016189439404583394,3.0541460842783446,87,sub-CA107,CS_VIS_abs,Irrelevant,object,dtw
+Offset,Original,0.014854938323407847,2.8042286766349402,805,sub-CA107,CS_VIS_abs,Irrelevant,object,dtw
+Onset,Squared,0.6002676351504466,9.327808304112745,87,sub-CA107,CS_VIS_abs,Irrelevant,object,dtw
+Offset,Squared,0.6463628052302868,7.863698470861748,805,sub-CA107,CS_VIS_abs,Irrelevant,object,dtw
+Onset,Original,-2.6263817405717987e-16,2.1411298397820673,757,sub-CA107,CS_PFC,Relevant non-target,object,euclidean
+Offset,Original,-3.0553337637684306e-16,2.2721497137510536,508,sub-CA107,CS_PFC,Relevant non-target,object,euclidean
+Onset,Squared,0.569136482909416,5.582562129025163,675,sub-CA107,CS_PFC,Relevant non-target,object,euclidean
+Offset,Squared,0.46759990793177325,5.910918568400914,665,sub-CA107,CS_PFC,Relevant non-target,object,euclidean
+Onset,Original,2.8748232565718337e-16,2.7940968815698595,131,sub-CA107,CS_PFC_abs,Relevant non-target,object,euclidean
+Offset,Original,-1.7763568394002505e-18,2.511474059552509,508,sub-CA107,CS_PFC_abs,Relevant non-target,object,euclidean
+Onset,Squared,0.5109480169478349,7.806977383598413,131,sub-CA107,CS_PFC_abs,Relevant non-target,object,euclidean
+Offset,Squared,0.5447571151875722,6.307501951805159,508,sub-CA107,CS_PFC_abs,Relevant non-target,object,euclidean
+Onset,Original,1.5971240314287965e-16,1.2821246418358454,145,sub-CA107,CS_VIS,Relevant non-target,object,euclidean
+Offset,Original,7.105427357601002e-18,1.4272665697535785,159,sub-CA107,CS_VIS,Relevant non-target,object,euclidean
+Onset,Squared,0.25157512860535375,2.7899826987161873,267,sub-CA107,CS_VIS,Relevant non-target,object,euclidean
+Offset,Squared,0.2290646406666726,2.0380848884509515,435,sub-CA107,CS_VIS,Relevant non-target,object,euclidean
+Onset,Original,7.453245480001051e-17,3.7712095444511897,694,sub-CA107,CS_VIS_abs,Relevant non-target,object,euclidean
+Offset,Original,1.0302869668521453e-16,3.059397485072129,116,sub-CA107,CS_VIS_abs,Relevant non-target,object,euclidean
+Onset,Squared,0.5729489647143229,14.22202142815975,694,sub-CA107,CS_VIS_abs,Relevant non-target,object,euclidean
+Offset,Squared,0.61705597410899,9.359912971665667,116,sub-CA107,CS_VIS_abs,Relevant non-target,object,euclidean
+Onset,Original,0.0219679293200036,2.365495616986283,793,sub-CA107,CS_PFC,Relevant non-target,object,dtw
+Offset,Original,0.0007525175320123516,2.3423825893634094,508,sub-CA107,CS_PFC,Relevant non-target,object,dtw
+Onset,Squared,0.6613569733416451,8.208557985875553,676,sub-CA107,CS_PFC,Relevant non-target,object,dtw
+Offset,Squared,0.5602616645358321,6.260371191410941,665,sub-CA107,CS_PFC,Relevant non-target,object,dtw
+Onset,Original,0.015568877347928604,3.105010545955269,21,sub-CA107,CS_PFC_abs,Relevant non-target,object,dtw
+Offset,Original,0.022528654320234678,2.725816029659396,983,sub-CA107,CS_PFC_abs,Relevant non-target,object,dtw
+Onset,Squared,0.6286652491565597,9.641090490493438,21,sub-CA107,CS_PFC_abs,Relevant non-target,object,dtw
+Offset,Squared,0.6945369579851122,7.430073027548112,983,sub-CA107,CS_PFC_abs,Relevant non-target,object,dtw
+Onset,Original,-0.018057445670988877,2.1479164002799926,641,sub-CA107,CS_VIS,Relevant non-target,object,dtw
+Offset,Original,0.0004521984116066875,1.9634037104820437,159,sub-CA107,CS_VIS,Relevant non-target,object,dtw
+Onset,Squared,0.34069194384107393,4.613544862591762,641,sub-CA107,CS_VIS,Relevant non-target,object,dtw
+Offset,Squared,0.3125024317661565,4.4384982393356385,435,sub-CA107,CS_VIS,Relevant non-target,object,dtw
+Onset,Original,0.00474132888967033,3.844841005395911,694,sub-CA107,CS_VIS_abs,Relevant non-target,object,dtw
+Offset,Original,0.019666584401412605,3.1499420676888286,660,sub-CA107,CS_VIS_abs,Relevant non-target,object,dtw
+Onset,Squared,0.648647023965342,14.78280235677384,694,sub-CA107,CS_VIS_abs,Relevant non-target,object,dtw
+Offset,Squared,0.7099546701679722,9.922135029795772,660,sub-CA107,CS_VIS_abs,Relevant non-target,object,dtw
