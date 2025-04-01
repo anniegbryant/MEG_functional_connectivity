@@ -6,17 +6,24 @@ from copy import deepcopy
 import argparse
 from joblib import Parallel, delayed
 
-deriv_dir = '/Users/abry4213/data/Cogitate_MEG/derivatives'
+# Define base_repo as one level up from current directory
+base_repo = op.abspath(op.join(op.dirname(__file__), op.pardir))
+
+# Define path for derivatives directory
+MEG_time_series_dir = f"{base_repo}/data/empirical/MEG_time_series"
+output_feature_path = f"{base_repo}/data/empirical/functional_connectivity_measures"
+
+# Define visit ID and duration
 visit_id = '1'
 duration = '1000ms'
 SPI_subset = 'barycenter_sq.yaml'
 
+# Load subjects
+subject_list = np.loadtxt(f"{base_repo}/data/metadata/subject_list_Cogitate_MEG_with_all_data.txt", dtype=str)
+subject_list = ['sub-'+subject for subject in subject_list]
+
 # Get the base name for SPI_subset file
 SPI_subset_base = op.basename(SPI_subset).replace(".yaml", "")
-
-# Time series output path for this subject
-time_series_path = op.join(deriv_dir, "MEG_time_series")
-output_feature_path = op.join(deriv_dir, "time_series_features/averaged_epochs")
 
 # Define ROI lookup table
 ROI_lookup = {"proc-0": "Category_Selective",
@@ -157,9 +164,11 @@ def process_for_subject(subject_id, visit_id, duration, time_series_path, output
 subject_list = np.loadtxt("../metadata/subject_list_Cogitate_MEG_with_all_data.txt", dtype=str)  
 n_jobs=8
 
-Parallel(n_jobs=int(n_jobs))(delayed(process_for_subject)(subject_id=subject_ID, visit_id="1", duration=duration, 
-                        time_series_path=time_series_path, 
-                        output_feature_path=output_feature_path, 
-                        SPI_subset=SPI_subset,
-                        SPI_subset_base=SPI_subset_base)
+Parallel(n_jobs=int(n_jobs))(delayed(process_for_subject)(subject_id=subject_ID, 
+                                                          visit_id="1", 
+                                                          duration=duration, 
+                                                            time_series_path=MEG_time_series_dir, 
+                                                            output_feature_path=output_feature_path, 
+                                                            SPI_subset=SPI_subset,
+                                                            SPI_subset_base=SPI_subset_base)
                     for subject_ID in subject_list)
