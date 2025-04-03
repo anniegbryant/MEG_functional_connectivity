@@ -93,7 +93,9 @@ Results from the three classification analyses are included in [`data/empirical/
 
 ## Neural mass modeling
 
-For Chris to fill in an overview of the implementation files, how to run them, and where the output can be found
+The two [`neural models`](https://github.com/anniegbryant/MEG_functional_connectivity/blob/main/modeling/CogitateModels.ipynb)  were implemented and numerically integrated (with the Euler-Maruyama method) in the notebook [`CogitateModels.ipynb`](https://github.com/anniegbryant/MEG_functional_connectivity/blob/main/modeling/CogitateModels.ipynb). Model outputs are saved in the [`data/`](https://github.com/anniegbryant/MEG_functional_connectivity/tree/main/data/model/simulated_data) folder.
+Model outputs are analyzed in the script [`run_barycenter_pyspi_for_model_simulated_epochs.py`](run_barycenter_pyspi_for_model_simulated_epochs.py).
+
 
 ## Data visualization
 
