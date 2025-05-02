@@ -1,0 +1,20 @@
+{
+    "Category_Selective":[
+        "7Networks_LH_DorsAttn_Post_1-lh",
+        "7Networks_RH_Vis_3-rh"
+    ],
+    "V1_V2": [
+        "7Networks_LH_Vis_4-lh", 
+        "7Networks_LH_Vis_5-lh",
+        "7Networks_RH_Vis_4-rh", 
+        "7Networks_RH_Vis_5-rh"
+    ],
+    "IPS": [
+        "7Networks_LH_DorsAttn_Post_3-lh",
+        "7Networks_RH_DorsAttn_Post_4-rh"
+    ],
+    "Prefrontal_Cortex": [
+        "7Networks_LH_SalVentAttn_PFCl_1-lh",
+        "7Networks_RH_Cont_PFCl_3-rh"
+    ]
+}

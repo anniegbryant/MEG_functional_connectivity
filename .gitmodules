@@ -1,0 +1,3 @@
+[submodule "cogitate-msp1"]
+	path = cogitate-msp1
+	url = https://github.com/anniegbryant/cogitate-msp1.git
