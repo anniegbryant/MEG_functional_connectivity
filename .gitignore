@@ -1,3 +1,4 @@
 feature_extraction/octave-workspace
 *.DS_Store*
-data/*
+data/empirical/*/*
+data/model/*/*
