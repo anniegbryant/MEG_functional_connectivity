@@ -1,9 +1,4 @@
-from sklearn.utils.validation import (
-    check_is_fitted,
-    check_random_state,
-    _check_sample_weight,
-    FLOAT_DTYPES,
-)
+from sklearn.utils.validation import check_array, FLOAT_DTYPES, check_is_fitted
 from sklearn.preprocessing import StandardScaler, RobustScaler
 import pandas as pd
 import math
@@ -124,7 +119,7 @@ class MixedSigmoidScaler(TransformerMixin, BaseEstimator):
 
         # at fit, convert sparse matrices to csc for optimized computation of
         # the quantiles
-        X = self._validate_data(
+        X = check_array(
             X,
             accept_sparse="csc",
             dtype=FLOAT_DTYPES,
@@ -156,13 +151,12 @@ class MixedSigmoidScaler(TransformerMixin, BaseEstimator):
             Transformed array.
         """
         check_is_fitted(self)
-        X = self._validate_data(
+        X = check_array(
             X,
             accept_sparse=("csr", "csc"),
-            copy=self.copy,
             dtype=FLOAT_DTYPES,
-            reset=False,
             force_all_finite="allow-nan",
+            copy=self.copy,
         )
 
         X_transformed = np.zeros(X.shape)

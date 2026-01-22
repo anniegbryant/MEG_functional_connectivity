@@ -1,0 +1,18 @@
+#!/bin/tcsh
+#PBS -j oe
+#PBS -q taiji
+#PBS -N model_barycenter
+#PBS -o /taiji1/abry4213/github/MEG_functional_connectivity/cluster_output/model_barycenter.out
+#PBS -l select=1:ncpus=12:mem=12GB:mpiprocs=12
+#PBS -l walltime=12:00:00
+
+# Navigate to directory
+cd /taiji1/abry4213/github/MEG_functional_connectivity/modeling
+
+# Load anaconda
+source /usr/physics/python/Anaconda3-2022.10/etc/profile.d/conda.csh
+
+# Activate pyspi environment
+conda activate annie_env
+
+python3 run_barycenter_pyspi_for_model_simulated_epochs.py

@@ -41,7 +41,7 @@ parser.add_argument('--classification_type',
                     help='Whether to perform average and/or individual classification; default is all')
 parser.add_argument('--classifier',
                     type=str,
-                    default='Linear_SVM',
+                    default='Logistic_Regression',
                     help='Which type of classifier to use')
 opt=parser.parse_args()
 
@@ -71,8 +71,10 @@ os.makedirs(classification_res_path_individual, exist_ok=True)
 # Define classifier
 if classifier == "Linear_SVM":
     model = svm.SVC(C=1, class_weight='balanced', kernel='linear', random_state=127, probability=True)
-else:
+elif classifier == "Logistic_Regression":
     model = LogisticRegression(penalty='l1', C=1, solver='liblinear', class_weight='balanced', random_state=127)
+else:
+    model = svm.SVC(C=1, class_weight='balanced', kernel='rbf', random_state=127, probability=True)
 
 pipe = Pipeline([('scaler', MixedSigmoidScaler(unit_variance=True)), 
                             ('model', model)])
@@ -234,7 +236,7 @@ if classification_type == "averaged":
     stimulus_type_comparisons = list(itertools.combinations(stimulus_types, 2))
 
     # Comparing between stimulus types
-    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv"):
+    if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results_AUC.csv"):
         # All comparisons list
         comparing_between_stimulus_types_classification_results_list = []
 
@@ -316,13 +318,15 @@ if classification_type == "averaged":
                                     "stimulus_presentation": [stimulus_presentation],
                                     "stimulus_combo": [this_combo], 
                                     "accuracy": [this_classifier_res['test_accuracy'].mean()],
-                                    "accuracy_SD": [this_classifier_res['test_accuracy'].std()]})
+                                    "accuracy_SD": [this_classifier_res['test_accuracy'].std()],
+                                    "AUC": [this_classifier_res['test_AUC'].mean()],
+                                    "AUC_SD": [this_classifier_res['test_AUC'].std()]})
                             
                             # Append to growing results list
                             comparing_between_stimulus_types_classification_results_list.append(this_SPI_combo_df)
 
         comparing_between_stimulus_types_classification_results = pd.concat(comparing_between_stimulus_types_classification_results_list).reset_index(drop=True)
-        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results.csv", index=False)
+        comparing_between_stimulus_types_classification_results.to_csv(f"{classification_res_path_averaged}/comparing_between_stimulus_types_{classifier}_classification_results_AUC.csv", index=False)
 
     # Comparing between relevance types
     if not os.path.isfile(f"{classification_res_path_averaged}/comparing_between_relevance_types_{classifier}_classification_results.csv"):

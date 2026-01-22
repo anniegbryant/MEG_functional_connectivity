@@ -2,3 +2,4 @@ feature_extraction/octave-workspace
 *.DS_Store*
 data/empirical/*/*
 data/model/*/*
+cluster_output/

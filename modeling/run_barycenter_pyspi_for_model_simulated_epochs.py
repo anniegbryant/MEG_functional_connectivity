@@ -16,11 +16,14 @@ simulated_TS_dir = f'{base_repo}/data/model/simulated_data/'
 output_barycenter_dir = f'{base_repo}/data/model/barycenter_results/'
 
 # Define the SPI subset files
-# SPI_subset = f'{base_repo}/functional_connectivity_analysis/barycenter_sq.yaml'
-SPI_subset = f'{base_repo}/functional_connectivity_analysis/barycenter_sq_euclidean.yaml'
+SPI_subset_euc = f'{base_repo}/functional_connectivity_analysis/barycenter_sq_euclidean.yaml'
+SPI_subset = f'{base_repo}/functional_connectivity_analysis/barycenter_sq.yaml'
 
 # We've constructed 1000 simulated for GNWT and IIT in stimulus on and off conditions, respectively
 N_sims = 1000
+
+# Use 16 jobs
+n_jobs = 16
 
 # Each sim has 1000 timepoints
 num_timepoints = 1000
@@ -33,6 +36,7 @@ n_parameters_GNWT = 22
 num_ROIs = 2
 
 # Get the base name for SPI_subset file
+SPI_subset_base_euc = op.basename(SPI_subset_euc).replace(".yaml", "")
 SPI_subset_base = op.basename(SPI_subset).replace(".yaml", "")
 
 # Define ROI lookup tables
@@ -164,8 +168,8 @@ noise_array_name_dict = {
 Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_4d_array, 
                                                             array_name, 
                                                             output_barycenter_dir, 
-                                                            SPI_subset, 
-                                                            SPI_subset_base, 
+                                                            SPI_subset_euc, 
+                                                            SPI_subset_base_euc, 
                                                             region_lookup_dict,
                                                             measurement_noise,
                                                             n_parameters=n_params,
@@ -199,10 +203,47 @@ for measurement_noise in [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
     Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_4d_array, 
                                                                 array_name, 
                                                                 output_barycenter_dir, 
-                                                                SPI_subset, 
-                                                                SPI_subset_base, 
+                                                                SPI_subset_euc, 
+                                                                SPI_subset_base_euc, 
                                                                 region_lookup_dict,
                                                                 measurement_noise,
                                                                 n_parameters=n_parameters)
                         for array_name, input_4d_array in noise_array_name_dict.items()
                         )
+
+########## Part 3: all barycenter geometries with noise=1.0 ###########
+
+# Define parameters
+measurement_noise=1.0
+GNWT_param_number = 15
+IIT_param_number = 13
+n_parameters=1
+
+# Load the time series
+time_series_GNWT_stim_on = np.load(f'{simulated_TS_dir}/GNWT_stim_on_{N_sims}_sims_noise_{measurement_noise}_param_{GNWT_param_number}.npy')
+time_series_GNWT_stim_off = np.load(f'{simulated_TS_dir}/GNWT_stim_off_{N_sims}_sims_noise_{measurement_noise}_param_{GNWT_param_number}.npy')
+time_series_IIT_stim_on = np.load(f'{simulated_TS_dir}/IIT_stim_on_{N_sims}_sims_noise_{measurement_noise}_param_{IIT_param_number}.npy')
+time_series_IIT_stim_off = np.load(f'{simulated_TS_dir}/IIT_stim_off_{N_sims}_sims_noise_{measurement_noise}_param_{IIT_param_number}.npy')
+
+# Reshape for barycenter computation
+time_series_GNWT_stim_on = np.reshape(time_series_GNWT_stim_on, (num_ROIs, num_timepoints, N_sims, n_parameters))
+time_series_GNWT_stim_off = np.reshape(time_series_GNWT_stim_off, (num_ROIs, num_timepoints, N_sims, n_parameters))
+time_series_IIT_stim_on = np.reshape(time_series_IIT_stim_on, (num_ROIs, num_timepoints, N_sims, n_parameters))
+time_series_IIT_stim_off = np.reshape(time_series_IIT_stim_off, (num_ROIs, num_timepoints, N_sims, n_parameters))
+
+# Define array name dictionary
+noise_array_name_dict = {"GNWT_stim_on": time_series_GNWT_stim_on,
+                            "GNWT_stim_off": time_series_GNWT_stim_off,
+                            "IIT_stim_on": time_series_IIT_stim_on,
+                            "IIT_stim_off": time_series_IIT_stim_off}
+
+Parallel(n_jobs=int(n_jobs))(delayed(process_for_sim_array)(input_4d_array, 
+                                                            array_name, 
+                                                            output_barycenter_dir, 
+                                                            SPI_subset, 
+                                                            SPI_subset_base, 
+                                                            region_lookup_dict,
+                                                            measurement_noise,
+                                                            n_parameters=n_parameters)
+                    for array_name, input_4d_array in noise_array_name_dict.items()
+                    )

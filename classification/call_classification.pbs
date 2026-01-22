@@ -1,0 +1,18 @@
+#!/bin/tcsh
+#PBS -j oe
+#PBS -q taiji
+#PBS -l walltime=12:00:00
+
+# Navigate to directory
+cd /taiji1/abry4213/github/MEG_functional_connectivity/classification
+
+# Load anaconda
+source /usr/physics/python/Anaconda3-2022.10/etc/profile.d/conda.csh
+
+# Activate pyspi environment
+conda activate annie_env
+
+python3 fit_pyspi_classifiers.py --bids_root $bids_root --n_jobs $n_jobs \
+    --SPI_directionality_file $MEG_base_repo/functional_connectivity_analysis/pyspi_SPI_info.csv \
+    --classification_type averaged \
+    --classifier $classifier
